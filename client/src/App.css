@@ -1,0 +1,7 @@
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.label-tujuan {
+  margin-right: auto;
+}
