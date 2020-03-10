@@ -1,6 +1,11 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { Grid, Typography, Box } from "@material-ui/core";
+import { toRupiah } from "indo-formatter";
+
+import { connect } from "react-redux";
+import { get_ticket } from "../_action/ticket";
+import moment from "moment";
 
 const styles = theme => ({
   main: {
@@ -51,8 +56,21 @@ const styles = theme => ({
 });
 
 class FormTiket extends React.Component {
+  componentDidMount() {
+    this.props.get_ticket();
+  }
   render() {
+    const getDuration = (timeA, timeB) => {
+      let startTime = moment(timeA, "HH:mm:ss");
+      let endTime = moment(timeB, "HH:mm:ss");
+      let duration = moment.duration(endTime.diff(startTime));
+      let hours = parseInt(duration.asHours());
+      let minutes = parseInt(duration.asMinutes()) - hours * 60;
+      return `${hours} Jam ${minutes} Menit`;
+    };
+
     const { classes } = this.props;
+    const { data: ticket } = this.props.ticket;
     return (
       <div className={classes.root}>
         <Grid container spacing={3} style={{ marginBottom: "0px" }}>
@@ -83,62 +101,81 @@ class FormTiket extends React.Component {
           </Grid>
         </Grid>
 
-        <Box border={1} style={{ borderRadius: "10px" }}>
-          <Grid container spacing={3}>
-            <br />
-            <Grid item xs={3}>
-              <Typography>
+        {/* GET_TICKET */}
+
+        {ticket.map((item, index) => (
+          <Box border={1} style={{ borderRadius: "10px", marginTop: "10px" }}>
+            <Grid container spacing={3}>
+              <Grid item xs={3}>
+                <Typography>
+                  <br />
+                  <Box>
+                    <b>{item.train_name.name}</b>
+                  </Box>
+                  <Box fontSize={13}>{item.price}</Box>
+                  <br />
+                </Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography>
+                  <br />
+                  <Box>
+                    <b>{item.start_time}</b>
+                  </Box>
+                  <Box fontSize={13}>{item.destination.name}</Box>
+                  <br />
+                </Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography>
+                  <br />
+                  <Box>
+                    <b>{item.arrival_time}</b>
+                  </Box>
+                  <Box fontSize={13}>{item.start.name}</Box>
+                  <br />
+                </Typography>
+              </Grid>
+              <Grid item xs={2}>
                 <br />
-                <Box>
-                  <b>Shinkansen</b>
-                </Box>
-                <Box fontSize={13}>Eksekutif(H)</Box>
+                <Typography>
+                  <Box>
+                    <b>{getDuration(item.start_time, item.arrival_time)}</b>
+                  </Box>
+                </Typography>
                 <br />
-              </Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <br />
+                <Typography>
+                  <Box>
+                    <b>
+                      <td style={{ color: "#ffd740" }}>
+                        {toRupiah(item.price)}
+                      </td>
+                    </b>
+                  </Box>
+                </Typography>
+                <br />
+              </Grid>
             </Grid>
-            <Grid item xs={2}>
-              <Typography>
-                <br />
-                <Box>
-                  <b>05:00</b>
-                </Box>
-                <Box fontSize={13}>Gambir</Box>
-                <br />
-              </Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <Typography>
-                <br />
-                <Box>
-                  <b>10:15</b>
-                </Box>
-                <Box fontSize={13}>Surabaya</Box>
-                <br />
-              </Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <br />
-              <Typography>
-                <Box>
-                  <b>5j 05m</b>
-                </Box>
-              </Typography>
-              <br />
-            </Grid>
-            <Grid item xs={2}>
-              <br />
-              <Typography>
-                <Box>
-                  <b>Rp. 250.000</b>
-                </Box>
-              </Typography>
-              <br />
-            </Grid>
-          </Grid>
-        </Box>
+          </Box>
+        ))}
       </div>
     );
   }
 }
 
-export default withStyles(styles)(FormTiket);
+const MapsToProps = state => {
+  return { ticket: state.ticket };
+};
+
+const MapsDispacthToProps = dispacth => {
+  return {
+    get_ticket: () => dispacth(get_ticket())
+  };
+};
+export default connect(
+  MapsToProps,
+  MapsDispacthToProps
+)(withStyles(styles)(FormTiket));

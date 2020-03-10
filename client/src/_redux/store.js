@@ -1,10 +1,13 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { logger, promise } from "../middleware/index";
 import auth from "../_reducer/auth";
-// import species from "../_reducers/species";
+import ticket from "../_reducer/ticket";
+import station from "../_reducer/station";
+import type from "../_reducer/type";
+import train from "../_reducer/train";
 
 // Global state
-const rootReducers = combineReducers({ auth });
+const rootReducers = combineReducers({ auth, ticket, station, type, train });
 
 // Setup store for Redux
 const store = createStore(rootReducers, applyMiddleware(logger, promise));

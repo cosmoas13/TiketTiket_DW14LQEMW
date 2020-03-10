@@ -12,12 +12,16 @@ import {
   AppBar,
   DialogContent,
   TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  Button
+  Button,
+  MenuItem
 } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
+
+import { connect } from "react-redux";
+import { post_ticket } from "../_action/ticket";
+import { get_stations } from "../_action/station";
+import { get_train } from "../_action/train";
+import { get_type } from "../_action/type";
 
 const styles = theme => ({
   root: {
@@ -62,12 +66,65 @@ const styles = theme => ({
     opacity: "0.2"
   }
 });
+
 const startStepsIcons = () => <RadioButtonUncheckedIcon color="primary" />;
 const endStepsIcons = () => <LensIcon color="primary" />;
 
 class Ticket extends React.Component {
+  componentDidMount() {
+    this.props.get_type();
+    this.props.get_stations();
+    this.props.get_train();
+  }
+  constructor(props) {
+    super(props);
+    this.state = {
+      train: "",
+      type: "",
+      depart_station: "",
+      start_date: "",
+      start_time: "",
+      destination_station: "",
+      arrival_date: "",
+      arrival_time: "",
+      price: "",
+      qty: ""
+    };
+  }
+
+  handleSubmit = e => {
+    e.preventDefault();
+
+    const data = {
+      train: this.state.train,
+      type: this.state.type,
+      depart_station: this.state.depart_station,
+      start_date: this.state.start_date,
+      start_time: this.state.start_time,
+      destination_station: this.state.destination_station,
+      arrival_date: this.state.arrival_date,
+      arrival_time: this.state.arrival_time,
+      price: this.state.price,
+      qty: this.state.qty
+    };
+    this.props.post_ticket(data);
+    window.location.reload(false);
+  };
+
+  handleChange = e => {
+    e.preventDefault();
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+    console.log(e.target.value);
+  };
+  // tr : train, st : station, ty : type
+
   render() {
     const { classes } = this.props;
+    const { data: st } = this.props.station;
+    const { data: tr } = this.props.train;
+    const { data: ty } = this.props.type;
     return (
       <>
         <div className={classes.root}>
@@ -92,81 +149,119 @@ class Ticket extends React.Component {
             </Typography>
             <DialogContent>
               <TextField
-                autoFocus
+                select
+                label="Keberangkatan"
+                onChange={this.handleChange}
                 margin="dense"
-                id="train"
                 variant="outlined"
-                label="Nama Kereta"
-                type="train"
+                name="depart_station"
                 fullWidth
-              />
-              <FormControl
-                margin="dense"
-                id="type"
-                variant="outlined"
-                label="Jenis Kereta"
-                type="type"
-                style={{ width: "100%" }}
               >
-                <InputLabel id="select-spesies">Jenis Kereta</InputLabel>
-                <Select labelId="select-spesies-label" id="select-spesies">
-                  <option value={10}>Argo Wilis</option>
-                  <option value={20}>Shinkansen</option>
-                </Select>
-              </FormControl>
+                {tr.map((item, index) => (
+                  <MenuItem key={index} value={item.name}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+
+              {/* Type Kereta */}
               <TextField
+                select
+                label="Tipe Kereta"
+                onChange={this.handleChange}
+                margin="dense"
+                variant="outlined"
+                name="type"
+                fullWidth
+              >
+                {ty.map((item, index) => (
+                  <MenuItem key={index} value={item.name}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+
+              <TextField
+                onChange={this.handleChange}
                 margin="dense"
                 id="date"
                 variant="outlined"
                 type="date"
+                name="start_date"
                 size="small"
                 fullWidth
               />
+
               <TextField
+                select
+                label="Keberangkatan"
+                onChange={this.handleChange}
                 margin="dense"
-                id="start"
                 variant="outlined"
-                label="Stasiun Keberangkatan"
-                type="start"
+                name="depart_station"
                 fullWidth
-              />
+              >
+                {st.map((item, index) => (
+                  <MenuItem key={index} value={item.name}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+
               <TextField
+                onChange={this.handleChange}
                 margin="dense"
                 id="timestart"
                 variant="outlined"
+                name="start_time"
                 type="time"
                 size="small"
                 fullWidth
               />
+
               <TextField
+                select
+                label="Tujuan"
+                onChange={this.handleChange}
                 margin="dense"
-                id="arrival"
                 variant="outlined"
-                label="Stasiun Tujuan"
-                type="arrival"
+                name="destination_station"
                 fullWidth
-              />
+              >
+                {st.map((item, index) => (
+                  <MenuItem key={index} value={item.name}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+
               <TextField
+                onChange={this.handleChange}
                 margin="dense"
                 id="timearrival"
                 variant="outlined"
+                name="arrival_time"
                 type="time"
                 size="small"
                 fullWidth
               />
               <TextField
+                onChange={this.handleChange}
                 margin="dense"
                 id="price"
                 variant="outlined"
                 label="Harga Tiket"
+                name="price"
                 type="number"
                 fullWidth
               />
               <TextField
+                onChange={this.handleChange}
                 margin="dense"
                 id="price"
                 variant="outlined"
                 label="Qty"
+                name="qty"
                 type="number"
                 fullWidth
               />
@@ -176,6 +271,7 @@ class Ticket extends React.Component {
                 fullWidth
                 variant="contained"
                 style={{ marginTop: "10px" }}
+                onClick={this.handleSubmit}
               >
                 Register
               </Button>
@@ -196,4 +292,24 @@ class Ticket extends React.Component {
   }
 }
 
-export default withStyles(styles)(Ticket);
+const MapsToProps = state => {
+  return {
+    ticket: state.ticket,
+    station: state.station,
+    train: state.train,
+    type: state.type
+  };
+};
+
+const MapsDispacthToProps = dispacth => {
+  return {
+    post_ticket: data => dispacth(post_ticket(data)),
+    get_stations: () => dispacth(get_stations()),
+    get_train: () => dispacth(get_train()),
+    get_type: () => dispacth(get_type())
+  };
+};
+export default connect(
+  MapsToProps,
+  MapsDispacthToProps
+)(withStyles(styles)(Ticket));

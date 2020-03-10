@@ -3,15 +3,16 @@ module.exports = (sequelize, DataTypes) => {
   const ticket = sequelize.define(
     "ticket",
     {
-      train: DataTypes.STRING,
-      startStation: DataTypes.STRING,
-      type: DataTypes.STRING,
-      dateStart: DataTypes.DATEONLY,
-      startTime: DataTypes.DATEONLY,
-      arrivalTime: DataTypes.TIME,
-      destination: DataTypes.STRING,
-      price: DataTypes.STRING,
-      qty: DataTypes.STRING
+      train: DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
+      depart_station: DataTypes.INTEGER,
+      start_date: DataTypes.DATEONLY,
+      start_time: DataTypes.TIME,
+      destination_station: DataTypes.INTEGER,
+      arrival_date: DataTypes.DATEONLY,
+      arrival_time: DataTypes.TIME,
+      price: DataTypes.INTEGER,
+      qty: DataTypes.INTEGER
     },
     {}
   );
@@ -25,12 +26,12 @@ module.exports = (sequelize, DataTypes) => {
       as: "train_type"
     });
     ticket.belongsTo(models.stations, {
-      foreignKey: "startStation",
-      as: "asal"
+      foreignKey: "depart_station",
+      as: "start"
     });
     ticket.belongsTo(models.stations, {
-      foreignKey: "destination",
-      as: "tujuan"
+      foreignKey: "destination_station",
+      as: "destination"
     });
   };
   return ticket;

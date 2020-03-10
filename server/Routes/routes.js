@@ -3,21 +3,10 @@ const router = express.Router();
 const { auth } = require("../middleware/auth");
 
 //Controller
-const { Login, Register } = require("../controllers/Auth");
-const { getUser } = require("../controllers/user");
-// const {
-//   GetAllTickets,
-//   AddTicket,
-//   UpdateTicket,
-//   DeleteTicket,
-//   DetailTicket
-// } = require("../controllers/Ticket");
-// const {
-//   MyOrders,
-//   GetAllOrders,
-//   AddOrder,
-//   StatusOrder
-// } = require("../controllers/Order");
+const AuthController = require("../controllers/Auth");
+const UserController = require("../controllers/user");
+const TicketController = require("../controllers/tickets");
+const StationController = require("../controllers/station");
 
 //Default message
 router.get("/", (req, res) => {
@@ -25,9 +14,18 @@ router.get("/", (req, res) => {
 });
 
 //AUTH
-router.post("/login", Login);
-router.post("/register", Register);
+router.post("/login", AuthController.Login);
+router.post("/register", AuthController.Register);
 //USER
-router.get("/user", auth, getUser);
+router.get("/user", auth, UserController.getUser);
+//TICKETS
+router.get("/tickets", TicketController.index);
+// router.post("/ticketSearch", TicketController.search);
+router.post("/ticket", TicketController.store);
+
+//STATION
+router.get("/stations", StationController.index);
+router.get("/types", StationController.type);
+router.get("/trains", StationController.train);
 
 module.exports = router;

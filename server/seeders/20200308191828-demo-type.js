@@ -9,16 +9,12 @@ module.exports = {
           name: "Ekonomi",
           createdAt: new Date(),
           updatedAt: new Date()
-        }
-      ],
-      [
+        },
         {
           name: "Bisnis",
           createdAt: new Date(),
           updatedAt: new Date()
-        }
-      ],
-      [
+        },
         {
           name: "Eksekutif",
           createdAt: new Date(),

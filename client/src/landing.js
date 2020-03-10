@@ -10,7 +10,8 @@ import {
   Toolbar,
   Typography,
   IconButton,
-  Container
+  Container,
+  Box
 } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 
@@ -94,7 +95,7 @@ class Landing extends React.Component {
     this.props.getUser();
   }
   render() {
-    const { logedIn } = this.props.auth;
+    const { logedIn, data } = this.props.auth;
     const { classes } = this.props;
     return (
       <div className={classes.root}>
@@ -108,7 +109,14 @@ class Landing extends React.Component {
                 </IconButton>
               </Typography>
               {logedIn ? (
-                <Drop />
+                <>
+                  <Box>
+                    <Typography>{data.username}</Typography>
+                  </Box>
+                  <Box>
+                    <Drop />
+                  </Box>
+                </>
               ) : (
                 <>
                   <Login />

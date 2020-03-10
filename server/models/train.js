@@ -8,11 +8,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  train.associate = function(models) {
-    train.belongsTo(models.type, {
-      foreignKey: "type",
-      as: "train_type"
-    });
-  };
+  train.associate = function(models) {};
   return train;
 };

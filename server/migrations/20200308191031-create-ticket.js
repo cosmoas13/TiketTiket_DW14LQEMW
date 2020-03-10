@@ -9,13 +9,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       train: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       type: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       depart_station: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       start_date: {
         type: Sequelize.DATEONLY
@@ -24,7 +24,7 @@ module.exports = {
         type: Sequelize.TIME
       },
       destination_station: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       arrival_date: {
         type: Sequelize.DATEONLY
@@ -33,10 +33,10 @@ module.exports = {
         type: Sequelize.TIME
       },
       price: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       qty: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

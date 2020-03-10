@@ -113,7 +113,7 @@ export default function PrimarySearchAppBar() {
       <Link to="/Ticket">
         <MenuItem onClick={handleMenuClose}>Tiket Saya</MenuItem>
       </Link>
-      <Link to="/Payment">
+      <Link to="/Invoice">
         <MenuItem onClick={handleMenuClose}>Payment</MenuItem>
       </Link>
       <hr></hr>

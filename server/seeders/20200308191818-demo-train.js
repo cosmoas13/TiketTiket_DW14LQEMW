@@ -10,17 +10,13 @@ module.exports = {
           type: 1,
           createdAt: new Date(),
           updatedAt: new Date()
-        }
-      ],
-      [
+        },
         {
           name: "Wilis Argo",
           type: 2,
           createdAt: new Date(),
           updatedAt: new Date()
-        }
-      ],
-      [
+        },
         {
           name: "Shinkansen",
           type: 3,

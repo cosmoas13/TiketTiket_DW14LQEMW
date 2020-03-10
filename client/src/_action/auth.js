@@ -2,28 +2,6 @@
 import { LOGIN, REGISTER, GET_USER } from "../config/constanst";
 import { API, setAuthToken } from "../config/api";
 
-// export const getAuth = () => {
-//   console.log("getusers");
-//   const token = localStorage.getItem("token");
-//   if (token) {
-//     return {
-//       type: "GET_AUTH",
-//       payload: async () => {
-//         setAuthToken(token);
-//         const res = await API.get("/autoauth");
-//         console.log("cek data", res.data.data);
-
-//         return res.data.data;
-//       }
-//     };
-//   } else {
-//     return {
-//       type: "LOGOUT",
-//       payload: {}
-//     };
-//   }
-// };
-
 export const login = data => {
   console.log("data action login", data);
   return {
@@ -58,7 +36,7 @@ export const getUser = () => {
     payload: async () => {
       const token = localStorage.getItem("token");
       setAuthToken(token);
-      const res = await API.post("/user");
+      const res = await API.get("/user");
       return res.data;
     }
   };
