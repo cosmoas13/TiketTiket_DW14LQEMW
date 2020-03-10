@@ -2,11 +2,12 @@ const { Op } = require("sequelize");
 const models = require("../models");
 const Station = models.stations;
 const Type = models.type;
+const Train = models.train;
 
 exports.index = async (req, res) => {
   try {
     const data = await Station.findAll({
-      attributes: ["name"]
+      attributes: ["id", "code", "name", "city"]
     });
     res.status(200).send({ status: true, message: "success", data });
   } catch (err) {
@@ -17,7 +18,7 @@ exports.index = async (req, res) => {
 exports.type = async (req, res) => {
   try {
     const data = await Type.findAll({
-      attributes: ["name"]
+      attributes: ["id", "name"]
     });
     res.status(200).send({ status: true, message: "success", data });
   } catch (err) {
@@ -27,8 +28,8 @@ exports.type = async (req, res) => {
 
 exports.train = async (req, res) => {
   try {
-    const data = await Type.findAll({
-      attributes: ["name"]
+    const data = await Train.findAll({
+      attributes: ["id", "name", "type"]
     });
     res.status(200).send({ status: true, message: "success", data });
   } catch (err) {

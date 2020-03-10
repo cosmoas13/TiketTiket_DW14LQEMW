@@ -1,4 +1,4 @@
-import { GET_TRAIN } from "../config/constanst";
+import { GET_PAYMENT } from "../config/constanst";
 // Setup Reducer for Redux
 const initialState = {
   data: [],
@@ -6,20 +6,20 @@ const initialState = {
   error: null
 };
 
-const train = (state = initialState, action) => {
+const payment = (state = initialState, action) => {
   switch (action.type) {
-    case `${GET_TRAIN}_PENDING`:
+    case `${GET_PAYMENT}_PENDING`:
       return {
         ...state,
         loading: true
       };
-    case `${GET_TRAIN}_FULFILLED`:
+    case `${GET_PAYMENT}_FULFILLED`:
       return {
         ...state,
         data: action.payload,
         loading: false
       };
-    case `${GET_TRAIN}_REJECTED`:
+    case `${GET_PAYMENT}_REJECTED`:
       return {
         ...state,
         loading: false,
@@ -30,4 +30,4 @@ const train = (state = initialState, action) => {
   }
 };
 
-export default train;
+export default payment;

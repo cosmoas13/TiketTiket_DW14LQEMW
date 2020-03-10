@@ -8,27 +8,6 @@ const initialState = {
 };
 
 const auth = (state = initialState, action) => {
-  // case "GET_AUTH_PENDING":
-  //   return {
-  //     ...state,
-  //     loading: true
-  //   };
-  // case "GET_AUTH_FULFILLED":
-  //   console.log("payload", action.payload);
-  //   return {
-  //     ...state,
-  //     authenticated: true,
-  //     data: action.payload,
-  //     loading: false,
-  //     error: null
-  //   };
-  // case "GET_AUTH_REJECTED":
-  //   console.log("payload", action.payload);
-  //   return {
-  //     ...state,
-  //     loading: false,
-  //     isError: true
-  //   };
   switch (action.type) {
     case `${LOGIN}_PENDING`:
     case `${REGISTER}_PENDING`:

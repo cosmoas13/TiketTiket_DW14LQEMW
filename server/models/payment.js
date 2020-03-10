@@ -16,11 +16,11 @@ module.exports = (sequelize, DataTypes) => {
   );
   payment.associate = function(models) {
     payment.belongsTo(models.user, {
-      foreign_key: "user_id",
+      foreignKey: "user_id",
       as: "user"
     });
     payment.belongsTo(models.ticket, {
-      foreign_key: "train_id",
+      foreignKey: "train_id",
       as: "ticket"
     });
   };

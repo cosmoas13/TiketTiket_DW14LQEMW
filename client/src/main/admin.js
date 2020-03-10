@@ -20,7 +20,8 @@ import {
   Container
 } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
-
+import { connect } from "react-redux";
+import { get_payment } from "../_action/payment";
 const styles = theme => ({
   root: {
     flexGrow: 1
@@ -83,27 +84,13 @@ const StyledTableRow = withStyles(theme => ({
   }
 }))(TableRow);
 
-function createData(no, users, ticket, proof, status, action) {
-  return { no, users, ticket, proof, status, action };
-}
-
-const rows = [
-  createData(1, "Anto", "Surabaya-Jakarta", "bca.jpg", "Approved"),
-  createData(2, "Budi", "Surabaya-Jepang", "mandi.jpg", "Pending"),
-  createData(3, "Budi", "Surabaya-Jepang", "mandi.jpg", "Pending"),
-  createData(2, "Budi", "Surabaya-Jepang", "mandi.jpg", "Pending"),
-  createData(3, "Budi", "Surabaya-Jepang", "mandi.jpg", "Pending"),
-  createData(3, "Budi", "Surabaya-Jepang", "mandi.jpg", "Pending"),
-  createData(2, "Budi", "Surabaya-Jepang", "mandi.jpg", "Pending"),
-  createData(3, "Budi", "Surabaya-Jepang", "mandi.jpg", "Pending"),
-  createData(3, "Budi", "Surabaya-Jepang", "mandi.jpg", "Pending"),
-  createData(2, "Budi", "Surabaya-Jepang", "mandi.jpg", "Pending"),
-  createData(3, "Budi", "Surabaya-Jepang", "mandi.jpg", "Pending")
-];
-
-class Ticket extends React.Component {
+class Payment extends React.Component {
+  componentDidMount() {
+    this.props.get_payment();
+  }
   render() {
     const { classes } = this.props;
+    const { data } = this.props.payment;
     return (
       <>
         <div className={classes.root}>
@@ -116,7 +103,6 @@ class Ticket extends React.Component {
                     <Avatar alt="homelogo" src="/logo.png" />
                   </IconButton>
                 </Typography>
-
                 <DropDown1 />
               </Toolbar>
             </AppBar>
@@ -144,22 +130,23 @@ class Ticket extends React.Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map(row => (
-                    <StyledTableRow key={row.name}>
+                  {data.map((item, index) => (
+                    <StyledTableRow key={index}>
                       <StyledTableCell component="th" scope="row">
-                        {row.no}
+                        {index + 1}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.users}
+                        {item.user.name}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.ticket}
+                        {item.ticket.start.name} -{" "}
+                        {item.ticket.destination.name}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.proof}
+                        {item.status}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.status}
+                        {item.status}
                       </StyledTableCell>
                       <StyledTableCell align="left">
                         <IconButton>
@@ -189,4 +176,17 @@ class Ticket extends React.Component {
   }
 }
 
-export default withStyles(styles)(Ticket);
+const mapStateToProps = state => {
+  return {
+    payment: state.payment
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    get_payment: () => dispatch(get_payment())
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(Payment));

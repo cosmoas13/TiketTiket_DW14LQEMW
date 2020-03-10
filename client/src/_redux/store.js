@@ -5,9 +5,17 @@ import ticket from "../_reducer/ticket";
 import station from "../_reducer/station";
 import type from "../_reducer/type";
 import train from "../_reducer/train";
+import payment from "../_reducer/payment";
 
 // Global state
-const rootReducers = combineReducers({ auth, ticket, station, type, train });
+const rootReducers = combineReducers({
+  auth,
+  ticket,
+  station,
+  type,
+  train,
+  payment
+});
 
 // Setup store for Redux
 const store = createStore(rootReducers, applyMiddleware(logger, promise));

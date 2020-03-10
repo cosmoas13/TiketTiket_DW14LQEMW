@@ -19,8 +19,8 @@ import Avatar from "@material-ui/core/Avatar";
 
 import { connect } from "react-redux";
 import { post_ticket } from "../_action/ticket";
-import { get_stations } from "../_action/station";
 import { get_train } from "../_action/train";
+import { get_stations } from "../_action/station";
 import { get_type } from "../_action/type";
 
 const styles = theme => ({
@@ -125,6 +125,8 @@ class Ticket extends React.Component {
     const { data: st } = this.props.station;
     const { data: tr } = this.props.train;
     const { data: ty } = this.props.type;
+    console.log(this.props.type, "cuks");
+
     return (
       <>
         <div className={classes.root}>
@@ -150,15 +152,15 @@ class Ticket extends React.Component {
             <DialogContent>
               <TextField
                 select
-                label="Keberangkatan"
+                label="Kereta"
                 onChange={this.handleChange}
                 margin="dense"
                 variant="outlined"
-                name="depart_station"
+                name="train"
                 fullWidth
               >
                 {tr.map((item, index) => (
-                  <MenuItem key={index} value={item.name}>
+                  <MenuItem key={index} value={item.id}>
                     {item.name}
                   </MenuItem>
                 ))}
@@ -175,7 +177,7 @@ class Ticket extends React.Component {
                 fullWidth
               >
                 {ty.map((item, index) => (
-                  <MenuItem key={index} value={item.name}>
+                  <MenuItem key={index} value={item.id}>
                     {item.name}
                   </MenuItem>
                 ))}
@@ -202,7 +204,7 @@ class Ticket extends React.Component {
                 fullWidth
               >
                 {st.map((item, index) => (
-                  <MenuItem key={index} value={item.name}>
+                  <MenuItem key={index} value={item.id}>
                     {item.name}
                   </MenuItem>
                 ))}
@@ -229,7 +231,7 @@ class Ticket extends React.Component {
                 fullWidth
               >
                 {st.map((item, index) => (
-                  <MenuItem key={index} value={item.name}>
+                  <MenuItem key={index} value={item.id}>
                     {item.name}
                   </MenuItem>
                 ))}

@@ -7,6 +7,7 @@ const AuthController = require("../controllers/Auth");
 const UserController = require("../controllers/user");
 const TicketController = require("../controllers/tickets");
 const StationController = require("../controllers/station");
+const PaymentController = require("../controllers/payment");
 
 //Default message
 router.get("/", (req, res) => {
@@ -27,5 +28,8 @@ router.post("/ticket", TicketController.store);
 router.get("/stations", StationController.index);
 router.get("/types", StationController.type);
 router.get("/trains", StationController.train);
+
+//PAYMENT
+router.get("/payments", PaymentController.index);
 
 module.exports = router;

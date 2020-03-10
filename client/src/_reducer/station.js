@@ -9,20 +9,17 @@ const initialState = {
 const station = (state = initialState, action) => {
   switch (action.type) {
     case `${GET_STATION}_PENDING`:
-    case `${GET_TYPE}_PENDING`:
       return {
         ...state,
         loading: true
       };
     case `${GET_STATION}_FULFILLED`:
-    case `${GET_TYPE}_FULFILLED`:
       return {
         ...state,
         data: action.payload,
         loading: false
       };
     case `${GET_STATION}_REJECTED`:
-    case `${GET_TYPE}_REJECTED`:
       return {
         ...state,
         loading: false,
