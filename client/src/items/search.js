@@ -87,9 +87,9 @@ class VerticalTabs extends Component {
     this.props.get_ticket(from, to);
   };
 
-  handleChange = () => {
+  handleChange = async () => {
     const { from, to } = this.state;
-    this.setState({
+    await this.setState({
       from: to,
       to: from
     });
