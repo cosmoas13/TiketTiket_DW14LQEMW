@@ -6,10 +6,12 @@ module.exports = {
       "users",
       [
         {
+          id_card: "1603030335353223",
           name: "Nafas",
           username: "john",
           email: "john@email.com",
-          password: "john",
+          password:
+            "$2b$10$dpn1IZOfxPZhYFoGvftZcOzo140hFIwgHNPWyJqypVHc7VJqj7cRG", //1234
           gender: "Male",
           phone: "+69 380 788",
           address: "Address john",
@@ -18,10 +20,12 @@ module.exports = {
           updatedAt: new Date()
         },
         {
+          id_card: "13030302253223223",
           name: "Smith",
           username: "smith",
           email: "smith@email.com",
-          password: "smith",
+          password:
+            "$2b$10$dpn1IZOfxPZhYFoGvftZcOzo140hFIwgHNPWyJqypVHc7VJqj7cRG", //1234
           gender: "Male",
           phone: "+69 980 788",
           address: "Address smith",

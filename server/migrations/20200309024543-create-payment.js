@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('payments', {
+    return queryInterface.createTable("payments", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -17,19 +17,18 @@ module.exports = {
       qty: {
         type: Sequelize.STRING
       },
-      depart: {
-        type: Sequelize.STRING
-      },
-      destination: {
-        type: Sequelize.STRING
-      },
-      date: {
-        type: Sequelize.DATEONLY
+      total: {
+        type: Sequelize.INTEGER
       },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM(
+          "Waiting Payment",
+          "Pending",
+          "Approved",
+          "Declined"
+        )
       },
-      total: {
+      attachment: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -43,6 +42,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('payments');
+    return queryInterface.dropTable("payments");
   }
 };

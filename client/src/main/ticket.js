@@ -4,6 +4,7 @@ import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import LensIcon from "@material-ui/icons/Lens";
 import DropDown1 from "../items/dropdown";
 import Box from "@material-ui/core/Box";
+import { Link } from "react-router-dom";
 import "typeface-roboto";
 import {
   Container,
@@ -18,6 +19,9 @@ import {
   StepLabel,
   Button
 } from "@material-ui/core";
+import { connect } from "react-redux";
+// import { get_ticket } from "../_action/ticket";
+import { get_user } from "../_action/user";
 import Avatar from "@material-ui/core/Avatar";
 
 const styles = theme => ({
@@ -69,8 +73,14 @@ const startStepsIcons = () => <RadioButtonUncheckedIcon color="primary" />;
 const endStepsIcons = () => <LensIcon color="primary" />;
 
 class Ticket extends React.Component {
+  componentDidMount() {
+    // this.props.get_ticket();
+    // this.props.get_user();
+  }
   render() {
     const { classes } = this.props;
+    // const { data: user } = this.props.user;
+    // const { data: us } = this.props.ticket;
     return (
       <>
         <div className={classes.root}>
@@ -94,14 +104,14 @@ class Ticket extends React.Component {
               Tiket Saya
             </Typography>
             <Grid item xs={12}>
-              <Paper className={classes.paperText}>
+              <Paper className={classes.paperText} elevation={3}>
                 <Grid container className={classes.satu}>
                   <Grid item xs={9} style={{ marginTop: 50 }}>
                     <Grid container className={classes.satu}>
                       <Grid item xs={3}>
                         <Typography componenet="div">
                           <Box fontSize={16} m={1}>
-                            <b>Ksatria Kegelapan</b>
+                            <b>Argo Wilis</b>
                           </Box>
                           <Box fontSize={11} m={1}>
                             Eksekutif(H)
@@ -175,14 +185,16 @@ class Ticket extends React.Component {
 
                   {/* payment button */}
                   <Grid item xs={12} style={{ marginBottom: -5 }}>
+                    {/* {us.map((item, index) => ( */}
                     <Grid container className={classes.dua}>
                       <Grid item xs={2}>
                         <Typography componenet="div">
                           <Box fontSize={13} m={1}>
-                            <b>No. Tanda Pengenal</b>
+                            <b>ID Pengguna</b>
                           </Box>
                         </Typography>
                       </Grid>
+
                       <Grid item xs={2}>
                         <Typography componenet="div">
                           <Box fontSize={13} m={1}>
@@ -205,6 +217,7 @@ class Ticket extends React.Component {
                         </Typography>
                       </Grid>
                     </Grid>
+                    {/* ))} */}
                   </Grid>
 
                   <Grid item xs={12}>
@@ -252,7 +265,7 @@ class Ticket extends React.Component {
                         <Grid>
                           <Typography variant="h5">
                             <Button variant="outlined" color="primary">
-                              Bayar Sekarang
+                              <Link to="/Invoice">Bayar Sekarang</Link>
                             </Button>
                           </Typography>
                         </Grid>
@@ -274,4 +287,20 @@ class Ticket extends React.Component {
   }
 }
 
-export default withStyles(styles)(Ticket);
+const MapsToProps = state => {
+  return {
+    // ticket: state.ticket,
+    // user: state.user
+  };
+};
+
+const MapsDispacthToProps = dispacth => {
+  return {
+    // get_ticket: () => dispacth(get_ticket()),
+    // get_user: () => dispacth(get_user())
+  };
+};
+export default connect(
+  MapsToProps,
+  MapsDispacthToProps
+)(withStyles(styles)(Ticket));

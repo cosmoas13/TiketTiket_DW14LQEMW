@@ -1,10 +1,9 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
-import { Grid, Typography, Box } from "@material-ui/core";
+import { Grid, Typography, Box, Button } from "@material-ui/core";
 import { toRupiah } from "indo-formatter";
-
 import { connect } from "react-redux";
-import { get_ticket } from "../_action/ticket";
+import Buy from "../components/buy";
 import moment from "moment";
 
 const styles = theme => ({
@@ -56,9 +55,6 @@ const styles = theme => ({
 });
 
 class FormTiket extends React.Component {
-  componentDidMount() {
-    this.props.get_ticket();
-  }
   render() {
     const getDuration = (timeA, timeB) => {
       let startTime = moment(timeA, "HH:mm:ss");
@@ -71,10 +67,12 @@ class FormTiket extends React.Component {
 
     const { classes } = this.props;
     const { data: ticket } = this.props.ticket;
+    const { logedIn, data } = this.props.auth;
+
     return (
       <div className={classes.root}>
         <Grid container spacing={3} style={{ marginBottom: "0px" }}>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <Typography>
               <Box>Nama Kereta</Box>
             </Typography>
@@ -99,6 +97,9 @@ class FormTiket extends React.Component {
               <Box>Harga Per Orang</Box>
             </Typography>
           </Grid>
+          <Grid item xs={1}>
+            <Box> </Box>
+          </Grid>
         </Grid>
 
         {/* GET_TICKET */}
@@ -106,13 +107,13 @@ class FormTiket extends React.Component {
         {ticket.map((item, index) => (
           <Box border={1} style={{ borderRadius: "10px", marginTop: "10px" }}>
             <Grid container spacing={3}>
-              <Grid item xs={3}>
+              <Grid item xs={2}>
                 <Typography>
                   <br />
                   <Box>
                     <b>{item.train_name.name}</b>
                   </Box>
-                  <Box fontSize={13}>{item.price}</Box>
+                  <Box fontSize={13}>{item.train_type.name}</Box>
                   <br />
                 </Typography>
               </Grid>
@@ -122,7 +123,7 @@ class FormTiket extends React.Component {
                   <Box>
                     <b>{item.start_time}</b>
                   </Box>
-                  <Box fontSize={13}>{item.destination.name}</Box>
+                  <Box fontSize={13}>{item.start.name}</Box>
                   <br />
                 </Typography>
               </Grid>
@@ -132,7 +133,7 @@ class FormTiket extends React.Component {
                   <Box>
                     <b>{item.arrival_time}</b>
                   </Box>
-                  <Box fontSize={13}>{item.start.name}</Box>
+                  <Box fontSize={13}>{item.destination.name}</Box>
                   <br />
                 </Typography>
               </Grid>
@@ -158,6 +159,30 @@ class FormTiket extends React.Component {
                 </Typography>
                 <br />
               </Grid>
+              <Grid item xs={1}>
+                <br />
+
+                {!logedIn ? (
+                  ""
+                ) : (
+                  <Buy
+                    data={item}
+                    qty={item.qty}
+                    train={item.train_name.name}
+                    type={item.train_type.name}
+                    start_time={item.start_time}
+                    start_date={item.start_date}
+                    start={item.start.name}
+                    destination={item.destination.name}
+                    arrival={item.arrival_time}
+                    arrival_date={item.arrival_date}
+                    price={item.price}
+                    durasi={getDuration(item.start_time, item.arrival_time)}
+                    train_id={item.id}
+                  />
+                )}
+                <br />
+              </Grid>
             </Grid>
           </Box>
         ))}
@@ -167,12 +192,12 @@ class FormTiket extends React.Component {
 }
 
 const MapsToProps = state => {
-  return { ticket: state.ticket };
+  return { ticket: state.ticket, auth: state.auth };
 };
 
 const MapsDispacthToProps = dispacth => {
   return {
-    get_ticket: () => dispacth(get_ticket())
+    // get_ticket: (from, to) => dispacth(get_ticket(from, to))
   };
 };
 export default connect(

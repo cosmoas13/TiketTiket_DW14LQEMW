@@ -1,4 +1,3 @@
-const { Op } = require("sequelize");
 const models = require("../models");
 const Station = models.stations;
 const Type = models.type;

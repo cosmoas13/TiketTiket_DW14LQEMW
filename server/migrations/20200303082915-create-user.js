@@ -8,6 +8,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      id_card: {
+        type: Sequelize.INTEGER
+      },
       name: {
         type: Sequelize.STRING
       },
@@ -24,7 +27,7 @@ module.exports = {
         type: Sequelize.ENUM("Male", "Female")
       },
       phone: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       address: {
         type: Sequelize.STRING

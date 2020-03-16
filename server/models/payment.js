@@ -6,11 +6,14 @@ module.exports = (sequelize, DataTypes) => {
       user_id: DataTypes.STRING,
       train_id: DataTypes.STRING,
       qty: DataTypes.STRING,
-      depart: DataTypes.STRING,
-      destination: DataTypes.STRING,
-      date: DataTypes.DATEONLY,
-      status: DataTypes.STRING,
-      total: DataTypes.STRING
+      total: DataTypes.INTEGER,
+      status: DataTypes.ENUM(
+        "Waiting Payment",
+        "Pending",
+        "Approved",
+        "Declined"
+      ),
+      attachment: DataTypes.STRING
     },
     {}
   );

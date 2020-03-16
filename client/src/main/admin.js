@@ -17,7 +17,8 @@ import {
   AppBar,
   Toolbar,
   IconButton,
-  Container
+  Container,
+  Box
 } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import { connect } from "react-redux";
@@ -91,6 +92,8 @@ class Payment extends React.Component {
   render() {
     const { classes } = this.props;
     const { data } = this.props.payment;
+    const username = localStorage.getItem("username");
+
     return (
       <>
         <div className={classes.root}>
@@ -103,7 +106,10 @@ class Payment extends React.Component {
                     <Avatar alt="homelogo" src="/logo.png" />
                   </IconButton>
                 </Typography>
-                <DropDown1 />
+                <Box>{username}</Box>
+                <Box>
+                  <DropDown1 />
+                </Box>
               </Toolbar>
             </AppBar>
           </div>
@@ -166,11 +172,11 @@ class Payment extends React.Component {
             </TableContainer>
           </Container>
         </div>
-        <footer className={classes.footer}>
+        {/* <footer className={classes.footer}>
           <Typography style={{ paddingTop: "15px", marginTop: "10px" }}>
             &copy;Ticket Ticket
           </Typography>
-        </footer>
+        </footer> */}
       </>
     );
   }

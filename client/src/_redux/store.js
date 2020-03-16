@@ -6,6 +6,7 @@ import station from "../_reducer/station";
 import type from "../_reducer/type";
 import train from "../_reducer/train";
 import payment from "../_reducer/payment";
+import user from "../_reducer/user";
 
 // Global state
 const rootReducers = combineReducers({
@@ -14,7 +15,8 @@ const rootReducers = combineReducers({
   station,
   type,
   train,
-  payment
+  payment,
+  user
 });
 
 // Setup store for Redux

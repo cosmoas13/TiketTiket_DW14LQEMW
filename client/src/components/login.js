@@ -67,7 +67,6 @@ class Login extends React.Component {
               onChange={this.handleChange}
             />
             <TextField
-              autoFocus
               margin="dense"
               id="password"
               label="Password"
@@ -94,10 +93,10 @@ class Login extends React.Component {
 }
 
 const MapsToProps = state => {
-  return { user: state.user };
+  return { auth: state.auth };
 };
 
 const MapsDispacthToProps = dispacth => {
-  return { login: (username, password) => dispacth(login(username, password)) };
+  return { login: data => dispacth(login(data)) };
 };
 export default connect(MapsToProps, MapsDispacthToProps)(Login);

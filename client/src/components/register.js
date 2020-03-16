@@ -9,6 +9,7 @@ import {
   FormControl,
   InputLabel
 } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 import { connect } from "react-redux";
 import { register } from "../_action/auth";
 class Register extends React.Component {
@@ -16,6 +17,7 @@ class Register extends React.Component {
     super(props);
     this.state = {
       open: false,
+      id_card: "",
       name: "",
       username: "",
       email: "",
@@ -26,8 +28,9 @@ class Register extends React.Component {
     };
   }
 
-  handleRegister = e => {
+  handleRegister = async e => {
     e.preventDefault();
+    const id_card = this.state.id_card;
     const name = this.state.name;
     const username = this.state.username;
     const email = this.state.email;
@@ -35,8 +38,16 @@ class Register extends React.Component {
     const gender = this.state.gender;
     const phone = this.state.phone;
     const address = this.state.address;
-    const data = { name, username, email, password, gender, phone, address };
-    console.log("aku mau cek handle register", data);
+    const data = {
+      id_card,
+      name,
+      username,
+      email,
+      password,
+      gender,
+      phone,
+      address
+    };
     this.props.register(data);
   };
 
@@ -44,6 +55,7 @@ class Register extends React.Component {
     this.setState({
       [e.target.name]: e.target.value
     });
+    console.log(e.target.value);
   };
 
   handleClickOpen() {
@@ -54,6 +66,8 @@ class Register extends React.Component {
     this.setState({ open: false });
   };
   render() {
+    const { auth } = this.props;
+    const { data, loading, error } = auth;
     return (
       <div>
         <Button
@@ -73,91 +87,102 @@ class Register extends React.Component {
           maxWidth="xs"
         >
           <DialogTitle id="form-dialog-title">Register</DialogTitle>
+          {error && <Alert severity="error">{error}</Alert>}
           <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Name"
-              type="name"
-              fullWidth
-              name="name"
-              onChange={this.handleChange}
-            />
-            <TextField
-              margin="dense"
-              id="username"
-              label="Username"
-              type="username"
-              fullWidth
-              name="username"
-              onChange={this.handleChange}
-            />
-            <TextField
-              margin="dense"
-              id="email"
-              label="Email"
-              type="email"
-              fullWidth
-              name="email"
-              onChange={this.handleChange}
-            />
-            <TextField
-              margin="dense"
-              id="password"
-              label="Password"
-              type="password"
-              fullWidth
-              name="password"
-              onChange={this.handleChange}
-            />
-            <FormControl
-              margin="dense"
-              id="gender"
-              label="Gender"
-              type="gender"
-              style={{ width: "100%" }}
-            >
-              <InputLabel id="select-spesies">Gender</InputLabel>
-              <Select
-                name="gender"
+            <form noValidate autoComplete="off">
+              <TextField
+                autoFocus
+                margin="dense"
+                label="ID Card"
+                fullWidth
+                max={12}
+                name="id_card"
                 onChange={this.handleChange}
-                labelId="select-spesies-label"
-                id="select-spesies"
+              />
+              <TextField
+                margin="dense"
+                id="name"
+                label="Name"
+                type="name"
+                fullWidth
+                name="name"
+                onChange={this.handleChange}
+              />
+              <TextField
+                margin="dense"
+                id="username"
+                label="Username"
+                type="username"
+                fullWidth
+                name="username"
+                onChange={this.handleChange}
+              />
+              <TextField
+                margin="dense"
+                id="email"
+                label="Email"
+                type="email"
+                fullWidth
+                name="email"
+                onChange={this.handleChange}
+              />
+              <TextField
+                margin="dense"
+                id="password"
+                label="Password"
+                type="password"
+                fullWidth
+                name="password"
+                onChange={this.handleChange}
+              />
+              <FormControl
+                margin="dense"
+                id="gender"
+                label="Gender"
+                type="gender"
+                style={{ width: "100%" }}
               >
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </Select>
-            </FormControl>
-            <TextField
-              margin="dense"
-              id="phone"
-              label="Phone"
-              type="phone"
-              fullWidth
-              name="phone"
-              onChange={this.handleChange}
-            />
-            <TextField
-              margin="dense"
-              id="address"
-              label="Address"
-              type="address"
-              multiline
-              fullWidth
-              name="address"
-              onChange={this.handleChange}
-            />{" "}
-            <Button
-              color="primary"
-              fullWidth
-              size="medium"
-              variant="contained"
-              onClick={this.handleRegister}
-              style={{ marginTop: "10px" }}
-            >
-              Register
-            </Button>
+                <InputLabel id="select-spesies">Gender</InputLabel>
+                <Select
+                  name="gender"
+                  onChange={this.handleChange}
+                  labelId="select-spesies-label"
+                  id="select-spesies"
+                >
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </Select>
+              </FormControl>
+              <TextField
+                margin="dense"
+                id="phone"
+                label="Phone"
+                type="phone"
+                fullWidth
+                name="phone"
+                onChange={this.handleChange}
+              />
+              <TextField
+                margin="dense"
+                id="address"
+                label="Address"
+                type="address"
+                multiline
+                fullWidth
+                name="address"
+                onChange={this.handleChange}
+              />{" "}
+              <Button
+                color="primary"
+                fullWidth
+                size="medium"
+                variant="contained"
+                onClick={this.handleRegister}
+                style={{ marginTop: "10px" }}
+              >
+                Register
+              </Button>
+            </form>
           </DialogContent>
         </Dialog>
       </div>
@@ -166,7 +191,7 @@ class Register extends React.Component {
 }
 
 const MapsToProps = state => {
-  return { register: state.user };
+  return { auth: state.auth };
 };
 
 const MapsDispacthToProps = dispacth => {

@@ -14,17 +14,18 @@ const auth = (state = initialState, action) => {
     case `${GET_USER}_PENDING`:
       return {
         ...state,
-        loading: true
+        loading: true,
+        error: null
       };
     case `${LOGIN}_FULFILLED`:
     case `${REGISTER}_FULFILLED`:
     case `${GET_USER}_FULFILLED`:
-      console.log("login fullfilled");
       return {
         ...state,
         logedIn: true,
         data: action.payload,
-        loading: false
+        loading: false,
+        error: null
       };
     case `${LOGIN}_REJECTED`:
     case `${REGISTER}_REJECTED`:
@@ -32,7 +33,9 @@ const auth = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: action.payload.response.data.message
+        error: action.payload.response
+          ? action.payload.response.data.message
+          : action.payload.message
       };
     case "LOGOUT":
       console.log("logout");

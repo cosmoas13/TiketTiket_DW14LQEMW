@@ -6,7 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -71,6 +71,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.reload(false);
+  };
+
+  const token = localStorage.getItem("token");
+
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -105,11 +112,12 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      {token == null ? <Redirect to="/" /> : ""}
       <Link to="/Add">
         <MenuItem onClick={handleMenuClose}>Tambah Tiket</MenuItem>
-        <hr></hr>
-        <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
       </Link>
+      <hr></hr>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
 

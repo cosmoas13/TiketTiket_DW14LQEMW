@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import Country from "./country";
 import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { get_stations } from "../_action/station";
+
 import {
   Typography,
   IconButton,
@@ -21,8 +21,6 @@ import {
   Button,
   withStyles
 } from "@material-ui/core";
-import { connect } from "react-redux";
-import { get_ticket } from "../_action/ticket";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -70,50 +68,25 @@ class VerticalTabs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 0,
-      from: "",
-      to: ""
+      value: 0
     };
   }
 
-  componentDidMount() {
-    const { from, to } = this.state;
-    this.props.get_ticket(from, to);
-    this.props.get_stations();
-  }
-
-  handleSearch = () => {
-    const { from, to } = this.state;
-    this.props.get_ticket(from, to);
-  };
-
-  handleChange = () => {
-    const { from, to } = this.state;
-    this.setState({
-      from: to,
-      to: from
-    });
-  };
-
-  handleTabs = (event, newValue) => {
+  handleChange = (event, newValue) => {
     this.setState({
       value: newValue
     });
   };
-
   render() {
-    const { data: st } = this.props.station;
     const { classes } = this.props;
     const { value } = this.state;
-    const { from, to } = this.state;
-
     return (
       <div className={classes.root}>
         <Tabs
           orientation="vertical"
           variant="scrollable"
           value={this.state.value}
-          onChange={this.handleTabs}
+          onChange={this.handleChange}
           aria-label="Vertical tabs example"
           className={classes.tabs}
         >
@@ -130,48 +103,16 @@ class VerticalTabs extends Component {
                 <FormLabel className="label-tujuan" label="asal">
                   <strong>Asal</strong>
                 </FormLabel>
-                <Autocomplete
-                  options={st}
-                  getOptionLabel={st => st.name}
-                  inputValue={from}
-                  onChange={(event, value) => {
-                    this.setState({ from: value.name });
-                  }}
-                  style={{ width: 280, height: 60 }}
-                  renderInput={params => (
-                    <TextField
-                      {...params}
-                      placeholder="Pilih Tujuan"
-                      variant="outlined"
-                      size="small"
-                    />
-                  )}
-                />
+                <Country />
               </FormGroup>
-              <IconButton onClick={this.handleChange}>
+              <IconButton>
                 <SwapHorizIcon style={{ color: "#647BFF" }} />
               </IconButton>
               <FormGroup col style={{ marginTop: -25 }}>
                 <FormLabel className="label-tujuan" label="tujuan">
                   <strong> Tujuan</strong>
                 </FormLabel>
-                <Autocomplete
-                  options={st}
-                  getOptionLabel={st => st.name}
-                  inputValue={to}
-                  onChange={(event, value) => {
-                    this.setState({ to: value.name });
-                  }}
-                  style={{ width: 280, height: 60 }}
-                  renderInput={params => (
-                    <TextField
-                      {...params}
-                      placeholder="Pilih Tujuan"
-                      variant="outlined"
-                      size="small"
-                    />
-                  )}
-                />
+                <Country />
               </FormGroup>
             </FormGroup>
             <FormGroup row>
@@ -190,11 +131,7 @@ class VerticalTabs extends Component {
               </FormGroup>
 
               <FormGroup col style={{ marginLeft: 20, marginTop: 15 }}>
-                <Button
-                  onClick={this.handleSearch}
-                  variant="contained"
-                  color="primary"
-                >
+                <Button variant="contained" color="primary">
                   Cari Tiket
                 </Button>
               </FormGroup>
@@ -207,17 +144,4 @@ class VerticalTabs extends Component {
   }
 }
 
-const MapsToProps = state => {
-  return { ticket: state.ticket, auth: state.auth, station: state.station };
-};
-
-const MapsDispacthToProps = dispacth => {
-  return {
-    get_ticket: (from, to) => dispacth(get_ticket(from, to)),
-    get_stations: () => dispacth(get_stations())
-  };
-};
-export default connect(
-  MapsToProps,
-  MapsDispacthToProps
-)(withStyles(styles)(VerticalTabs));
+export default withStyles(styles)(VerticalTabs);

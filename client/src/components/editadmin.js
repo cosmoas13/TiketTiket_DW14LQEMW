@@ -9,9 +9,12 @@ import {
 import EditIcon from "@material-ui/icons/Edit";
 
 class EditAdmin extends React.Component {
-  state = {
-    open: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false
+    };
+  }
 
   handleClickOpen() {
     this.setState({ open: true });

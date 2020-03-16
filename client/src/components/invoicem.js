@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   Typography,
   Stepper,
   Box,

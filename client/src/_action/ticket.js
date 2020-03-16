@@ -2,11 +2,11 @@
 import { GET_TICKET, POST_TICKET } from "../config/constanst";
 import { API, setAuthToken } from "../config/api";
 
-export const get_ticket = () => {
+export const get_ticket = (from, to) => {
   return {
     type: GET_TICKET,
     payload: async () => {
-      const res = await API.get("/tickets");
+      const res = await API.get(`/tickets?from=${from}&to=${to}`);
       const { data } = res.data;
       return data;
     }

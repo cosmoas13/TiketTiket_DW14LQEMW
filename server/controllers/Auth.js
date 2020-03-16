@@ -1,15 +1,18 @@
 const jwt = require("jsonwebtoken");
 const models = require("../models");
+const bcrypt = require("bcrypt");
 const UserModel = models.user;
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
+const saltRounds = 10;
 
 //Login
 exports.Login = async (req, res) => {
   try {
     const { username, password } = req.body;
-    const user = await UserModel.findOne({ where: { username, password } });
-    if (user) {
+    const user = await UserModel.findOne({ where: { username } });
+    const result = await bcrypt.compare(password, user.password);
+    if (user && result) {
       const token = jwt.sign(
         { user_id: user.id, level: user.level },
         process.env.SECRET_KEY
@@ -30,49 +33,65 @@ exports.Login = async (req, res) => {
 };
 
 exports.Register = async (req, res) => {
+  const {
+    id_card,
+    name,
+    username,
+    email,
+    password,
+    gender,
+    phone,
+    address
+  } = req.body;
+  const level = "user";
+  const salt = await bcrypt.genSalt(saltRounds);
+
   try {
-    const {
-      username,
-      email,
-      name,
-      password,
-      gender,
-      phone,
-      address
-    } = req.body;
-    const level = "user";
-    const check = await UserModel.findOne({
-      where: { [Op.or]: [{ email }, { username }] }
-    });
-    if (check) {
-      res.status(401).send({
+    if (
+      id_card === "" ||
+      password === "" ||
+      email === "" ||
+      name === "" ||
+      username === "" ||
+      gender === "" ||
+      phone === "" ||
+      address === ""
+    ) {
+      res.status(401).json({
         status: false,
-        message: "The email or username is already login"
+        message: "Data cannot be empty"
       });
     } else {
-      const user = await UserModel.create({
-        name,
-        username,
-        email,
-        password,
-        gender,
-        phone,
-        address,
-        level
+      const check = await UserModel.findOne({
+        where: { [Sequelize.Op.or]: { email, username } }
       });
-      if (user) {
-        const token = jwt.sign(
-          {
-            user_id: user.id,
-            level: user.level
-          },
-          process.env.SECRET_KEY
-        );
-        res
-          .status(200)
-          .send({ status: true, message: "Register Success", token });
+      if (check) {
+        res.status(401).json({
+          status: false,
+          message: "Email or Username Already Registered"
+        });
       } else {
-        res.status(401).send({ status: false, message: "Invalid Register" });
+        const hash = await bcrypt.hash(password, salt);
+        const regUser = await UserModel.create({
+          id_card,
+          name,
+          username,
+          email,
+          password: hash,
+          gender,
+          phone,
+          address,
+          level: "user"
+        });
+        if (regUser) {
+          const token = jwt.sign(
+            { user_id: regUser.id },
+            process.env.SECRET_KEY
+          );
+          res.send({ email, token, status: true, message: "Register Success" });
+        } else {
+          res.status(401).json({ status: false, message: "Invalid Register" });
+        }
       }
     }
   } catch (err) {

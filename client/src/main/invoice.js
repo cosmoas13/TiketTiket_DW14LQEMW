@@ -343,7 +343,7 @@ class Ticket extends React.Component {
                     <Grid item sm={12} style={{ marginTop: "15px" }}>
                       <Box>
                         <Button variant="contained" color="primary" fullWidth>
-                          Primary
+                          Bayar
                         </Button>
                       </Box>
                     </Grid>

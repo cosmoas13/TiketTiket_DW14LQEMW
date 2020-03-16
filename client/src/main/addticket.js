@@ -222,6 +222,17 @@ class Ticket extends React.Component {
               />
 
               <TextField
+                onChange={this.handleChange}
+                margin="dense"
+                id="date"
+                variant="outlined"
+                type="date"
+                name="arrival_date"
+                size="small"
+                fullWidth
+              />
+
+              <TextField
                 select
                 label="Tujuan"
                 onChange={this.handleChange}

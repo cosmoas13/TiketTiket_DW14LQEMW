@@ -13,6 +13,7 @@ import {
   Container,
   Box
 } from "@material-ui/core";
+import { Redirect } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 
 import Login from "./components/login";
@@ -20,7 +21,7 @@ import Register from "./components/register";
 import Drop from "./items/dropdown";
 import { connect } from "react-redux";
 
-import { getUser } from "./_action/auth";
+import { get_user } from "./_action/user";
 
 const styles = theme => ({
   main: {
@@ -92,11 +93,15 @@ const styles = theme => ({
 
 class Landing extends React.Component {
   componentDidMount() {
-    this.props.getUser();
+    this.props.get_user();
   }
+
   render() {
     const { logedIn, data } = this.props.auth;
+    const { data: name } = this.props.user;
     const { classes } = this.props;
+    const username = localStorage.getItem("username");
+    const jabatan = localStorage.getItem("jabatan");
     return (
       <div className={classes.root}>
         <div className={classes.main}>
@@ -108,10 +113,12 @@ class Landing extends React.Component {
                   <Avatar alt="homelogo" src="/logo.png" />
                 </IconButton>
               </Typography>
-              {logedIn ? (
+              {jabatan == "admin" ? (
+                <Redirect to="/Admin" />
+              ) : logedIn ? (
                 <>
                   <Box>
-                    <Typography>{data.username}</Typography>
+                    <Typography>{username}</Typography>
                   </Box>
                   <Box>
                     <Drop />
@@ -197,11 +204,13 @@ class Landing extends React.Component {
 }
 
 const MapsToProps = state => {
-  return { auth: state.auth };
+  return { auth: state.auth, user: state.user };
 };
 
 const MapsDispacthToProps = dispacth => {
-  return { getUser: () => dispacth(getUser()) };
+  return {
+    get_user: () => dispacth(get_user())
+  };
 };
 export default connect(
   MapsToProps,

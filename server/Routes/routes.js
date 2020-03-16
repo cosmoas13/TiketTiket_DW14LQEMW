@@ -17,12 +17,15 @@ router.get("/", (req, res) => {
 //AUTH
 router.post("/login", AuthController.Login);
 router.post("/register", AuthController.Register);
+
 //USER
-router.get("/user", auth, UserController.getUser);
+router.get("/user", auth, UserController.user);
+
 //TICKETS
 router.get("/tickets", TicketController.index);
 // router.post("/ticketSearch", TicketController.search);
 router.post("/ticket", TicketController.store);
+router.get("/myticket", auth, TicketController.myticket);
 
 //STATION
 router.get("/stations", StationController.index);
@@ -31,5 +34,6 @@ router.get("/trains", StationController.train);
 
 //PAYMENT
 router.get("/payments", PaymentController.index);
+router.post("/payment", auth, PaymentController.order);
 
 module.exports = router;

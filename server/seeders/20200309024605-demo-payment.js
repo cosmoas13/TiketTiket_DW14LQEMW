@@ -9,11 +9,9 @@ module.exports = {
           user_id: 1,
           train_id: 1,
           qty: 1,
-          depart: 1,
-          destination: 1,
-          date: new Date(),
+          total: 300000,
           status: "Approved",
-          total: 300000
+          attachment: "bca.jpg"
         }
       ],
       {}
