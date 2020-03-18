@@ -23,9 +23,7 @@ router.get("/user", auth, UserController.user);
 
 //TICKETS
 router.get("/tickets", TicketController.index);
-// router.post("/ticketSearch", TicketController.search);
 router.post("/ticket", TicketController.store);
-router.get("/myticket", auth, TicketController.myticket);
 
 //STATION
 router.get("/stations", StationController.index);
@@ -35,5 +33,7 @@ router.get("/trains", StationController.train);
 //PAYMENT
 router.get("/payments", PaymentController.index);
 router.post("/payment", auth, PaymentController.order);
+router.get("/myticket", auth, PaymentController.myticket);
+router.get("/detail", PaymentController.detailticket);
 
 module.exports = router;

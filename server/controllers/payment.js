@@ -3,6 +3,8 @@ const Payment = models.payment;
 const User = models.user;
 const Ticket = models.ticket;
 const Station = models.stations;
+const Train = models.train;
+const Type = models.type;
 
 exports.index = async (req, res) => {
   try {
@@ -19,12 +21,22 @@ exports.index = async (req, res) => {
             {
               model: Station,
               as: "start",
-              attributes: ["name", "city"]
+              attributes: ["name", "city", "code"]
             },
             {
               model: Station,
               as: "destination",
-              attributes: ["name", "city"]
+              attributes: ["name", "city", "code"]
+            },
+            {
+              model: Train,
+              as: "train_name",
+              attributes: ["name"]
+            },
+            {
+              model: Type,
+              as: "train_type",
+              attributes: ["name"]
             }
           ],
           attributes: {
@@ -102,6 +114,107 @@ exports.order = async (req, res) => {
       res.send({ data: payment });
     }
 
+    res.status(200).send({ status: true, message: "success", data });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.myticket = async (req, res) => {
+  try {
+    const data = await Payment.findAll({
+      where: { user_id: req.user },
+      include: [
+        {
+          model: User,
+          as: "user"
+        },
+        {
+          model: Ticket,
+          as: "ticket",
+          include: [
+            {
+              model: Station,
+              as: "start",
+              attributes: ["name", "city", "code"]
+            },
+            {
+              model: Station,
+              as: "destination",
+              attributes: ["name", "city", "code"]
+            },
+            {
+              model: Train,
+              as: "train_name",
+              attributes: ["name"]
+            },
+            {
+              model: Type,
+              as: "train_type",
+              attributes: ["name"]
+            }
+          ],
+          attributes: {
+            exclude: [
+              "depart_station",
+              "destination_station",
+              "createdAt",
+              "updatedAt"
+            ]
+          }
+        }
+      ]
+    });
+    res.status(200).send({ status: true, message: "success", data });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.detailticket = async (req, res) => {
+  try {
+    const data = await Payment.findAll({
+      include: [
+        {
+          model: User,
+          as: "user"
+        },
+        {
+          model: Ticket,
+          as: "ticket",
+          include: [
+            {
+              model: Station,
+              as: "start",
+              attributes: ["name", "city", "code"]
+            },
+            {
+              model: Station,
+              as: "destination",
+              attributes: ["name", "city", "code"]
+            },
+            {
+              model: Train,
+              as: "train_name",
+              attributes: ["name"]
+            },
+            {
+              model: Type,
+              as: "train_type",
+              attributes: ["name"]
+            }
+          ],
+          attributes: {
+            exclude: [
+              "depart_station",
+              "destination_station",
+              "createdAt",
+              "updatedAt"
+            ]
+          }
+        }
+      ]
+    });
     res.status(200).send({ status: true, message: "success", data });
   } catch (err) {
     console.log(err);

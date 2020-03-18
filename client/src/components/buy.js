@@ -8,11 +8,13 @@ import {
   Grid,
   Typography,
   Paper,
-  TextField
+  TextField,
+  IconButton
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import { post_payment } from "../_action/payment";
+import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 const styles = theme => ({
   paper: {
     textAlign: "center",
@@ -69,7 +71,7 @@ class Buy extends React.Component {
     const { classes } = this.props;
     return (
       <div>
-        <Button
+        <IconButton
           onClick={() => {
             this.handleClickOpen();
           }}
@@ -77,8 +79,8 @@ class Buy extends React.Component {
           color="primary"
           size="lg"
         >
-          Beli
-        </Button>
+          <AddShoppingCartIcon />
+        </IconButton>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}

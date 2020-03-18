@@ -88,7 +88,13 @@ exports.Register = async (req, res) => {
             { user_id: regUser.id },
             process.env.SECRET_KEY
           );
-          res.send({ email, token, status: true, message: "Register Success" });
+          res.send({
+            email,
+            token,
+            username,
+            status: true,
+            message: "Register Success"
+          });
         } else {
           res.status(401).json({ status: false, message: "Invalid Register" });
         }

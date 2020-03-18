@@ -4,7 +4,7 @@ import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import LensIcon from "@material-ui/icons/Lens";
 import DropDown1 from "../items/dropdown";
 import Box from "@material-ui/core/Box";
-import { Link } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import "typeface-roboto";
 import {
   Container,
@@ -20,10 +20,9 @@ import {
   Button
 } from "@material-ui/core";
 import { connect } from "react-redux";
-// import { get_ticket } from "../_action/ticket";
-import { get_user } from "../_action/user";
+import { get_myticket } from "../_action/payment";
 import Avatar from "@material-ui/core/Avatar";
-
+import moment from "moment";
 const styles = theme => ({
   root: {
     flexGrow: 1
@@ -65,6 +64,13 @@ const styles = theme => ({
     width: 100,
     color: "#ffbf00"
   },
+  approved: {
+    backgroundColor: "#69f0ae",
+    border: 1,
+    textAlign: "center",
+    width: 100,
+    color: "#ffffff"
+  },
   textData: {
     opacity: "0.2"
   }
@@ -74,13 +80,12 @@ const endStepsIcons = () => <LensIcon color="primary" />;
 
 class Ticket extends React.Component {
   componentDidMount() {
-    // this.props.get_ticket();
-    // this.props.get_user();
+    this.props.get_myticket();
   }
   render() {
+    const username = localStorage.getItem("username");
     const { classes } = this.props;
-    // const { data: user } = this.props.user;
-    // const { data: us } = this.props.ticket;
+    const { data } = this.props.payment;
     return (
       <>
         <div className={classes.root}>
@@ -90,11 +95,17 @@ class Ticket extends React.Component {
               <Toolbar>
                 <Typography variant="h6" className={classes.logo}>
                   <IconButton>
-                    <Avatar alt="homelogo" src="/logo.png" />
+                    <Link to="/">
+                      <Avatar alt="homelogo" src="/logo.png" />
+                    </Link>
                   </IconButton>
                 </Typography>
-
-                <DropDown1 />
+                <Box>
+                  <Typography>{username}</Typography>
+                </Box>
+                <Box>
+                  <DropDown1 />
+                </Box>
               </Toolbar>
             </AppBar>
           </div>
@@ -104,176 +115,253 @@ class Ticket extends React.Component {
               Tiket Saya
             </Typography>
             <Grid item xs={12}>
-              <Paper className={classes.paperText} elevation={3}>
-                <Grid container className={classes.satu}>
-                  <Grid item xs={9} style={{ marginTop: 50 }}>
-                    <Grid container className={classes.satu}>
-                      <Grid item xs={3}>
-                        <Typography componenet="div">
-                          <Box fontSize={16} m={1}>
-                            <b>Argo Wilis</b>
-                          </Box>
-                          <Box fontSize={11} m={1}>
-                            Eksekutif(H)
-                          </Box>
-                          <Box fontSize={11} m={1}>
-                            <Paper className={classes.pending}>Pending</Paper>
-                          </Box>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={1}>
-                        <Stepper orientation="vertical" style={{ padding: 10 }}>
-                          <Step key="1">
-                            <StepLabel
-                              StepIconComponent={startStepsIcons}
-                            ></StepLabel>
-                          </Step>
-                          <Step key="2">
-                            <StepLabel
-                              StepIconComponent={endStepsIcons}
-                            ></StepLabel>
-                          </Step>
-                        </Stepper>
-                      </Grid>
-                      <Grid item xs={2}>
-                        <Typography variant="h5">
-                          <Box fontSize={13} m={1}>
-                            <b>05:00</b>
-                          </Box>
-                          <Box fontSize={11} m={1}>
-                            21 Februari 2020
-                          </Box>
-                          <Box fontSize={13} m={1}>
-                            <b>10:05</b>
-                          </Box>
-                          <Box fontSize={11} m={1}>
-                            21 Februari 2020
-                          </Box>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={3}>
-                        <Typography variant="h5">
-                          <Box fontSize={13} m={1}>
-                            <b>Jakarta (GMR)</b>
-                          </Box>
-                          <Box fontSize={11} m={1}>
-                            Stasiun Gambir
-                          </Box>
-                          <Box fontSize={13} m={1}>
-                            <b>Surabaya (SBY)</b>
-                          </Box>
-                          <Box fontSize={11} m={1}>
-                            Stasiun Surabaya
-                          </Box>
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </Grid>
+              {data.map((item, index) => (
+                <Paper
+                  className={classes.paperText}
+                  elevation={3}
+                  style={{ marginBottom: 30 }}
+                >
+                  <Grid container className={classes.satu}>
+                    <Grid item xs={9} style={{ marginTop: 50 }}>
+                      <Grid container className={classes.satu}>
+                        <Grid item xs={3}>
+                          <Typography componenet="div">
+                            <Box fontSize={16} m={1}>
+                              <b>{item.ticket.train_name.name}</b>
+                            </Box>
+                            <Box fontSize={11} m={1}>
+                              {item.ticket.train_type.name}
+                            </Box>
 
-                  <Grid item xs={3}>
-                    <Grid>
-                      <Typography variant="h5">
-                        <Box fontSize={23} m={1}>
-                          <b>Kereta Api</b>
-                        </Box>
-                        <Box fontSize={15} m={1}>
-                          <b>Saturday</b>, 21 Februari 2020
-                        </Box>
-                      </Typography>
-                    </Grid>
-                  </Grid>
+                            <Box fontSize={11} m={1}>
+                              {item == undefined ? (
+                                ""
+                              ) : item.status == "Approved" ? (
+                                <Paper className={classes.approved}>
+                                  {item.status}
+                                </Paper>
+                              ) : (
+                                <Paper className={classes.pending}>
+                                  {item.status}
+                                </Paper>
+                              )}
+                            </Box>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={1}>
+                          <Stepper
+                            orientation="vertical"
+                            style={{ padding: 10 }}
+                          >
+                            <Step key="1">
+                              <StepLabel
+                                StepIconComponent={startStepsIcons}
+                              ></StepLabel>
+                            </Step>
+                            <Step key="2">
+                              <StepLabel
+                                StepIconComponent={endStepsIcons}
+                              ></StepLabel>
+                            </Step>
+                          </Stepper>
+                        </Grid>
 
-                  {/* payment button */}
-                  <Grid item xs={12} style={{ marginBottom: -5 }}>
-                    {/* {us.map((item, index) => ( */}
-                    <Grid container className={classes.dua}>
-                      <Grid item xs={2}>
-                        <Typography componenet="div">
-                          <Box fontSize={13} m={1}>
-                            <b>ID Pengguna</b>
-                          </Box>
-                        </Typography>
-                      </Grid>
-
-                      <Grid item xs={2}>
-                        <Typography componenet="div">
-                          <Box fontSize={13} m={1}>
-                            <b>Nama Pemesan</b>
-                          </Box>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={2}>
-                        <Typography componenet="div">
-                          <Box fontSize={13} m={1}>
-                            <b>No. Handphone</b>
-                          </Box>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={2}>
-                        <Typography variant="h5">
-                          <Box fontSize={13} m={1}>
-                            <b>Email</b>
-                          </Box>
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                    {/* ))} */}
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <Grid item xs={8}>
-                      <hr></hr>
-                    </Grid>
-                    <Grid
-                      container
-                      className={classes.dua}
-                      style={{ marginTop: -5 }}
-                    >
-                      <Grid item xs={2}>
-                        <Typography componenet="div">
-                          <Box fontSize={13} m={1} className={classes.textData}>
-                            <b>3152523112233131</b>
-                          </Box>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={2}>
-                        <Typography componenet="div">
-                          <Box fontSize={13} m={1} className={classes.textData}>
-                            <b>Kevin</b>
-                          </Box>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={2}>
-                        <Typography componenet="div">
-                          <Box fontSize={13} m={1} className={classes.textData}>
-                            <b>089608727198</b>
-                          </Box>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={2}>
-                        <Typography variant="h5">
-                          <Box fontSize={13} m={1} className={classes.textData}>
-                            <b>cosmoas13@gmail.com</b>
-                          </Box>
-                        </Typography>
-                      </Grid>
-                      <Grid
-                        item
-                        xs={4}
-                        style={{ paddingLeft: 80, marginTop: -8 }}
-                      >
-                        <Grid>
+                        <Grid item xs={2}>
                           <Typography variant="h5">
-                            <Button variant="outlined" color="primary">
-                              <Link to="/Invoice">Bayar Sekarang</Link>
-                            </Button>
+                            <Box fontSize={13} m={1}>
+                              <b>{item.ticket.start_time}</b>
+                            </Box>
+                            <Box fontSize={11} m={1}>
+                              {item.ticket.start_date}
+                            </Box>
+                            <Box fontSize={13} m={1}>
+                              <b>{item.ticket.arrival_time}</b>
+                            </Box>
+                            <Box fontSize={11} m={1}>
+                              {item.ticket.arrival_date}
+                            </Box>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={3}>
+                          <Typography variant="h5">
+                            <Box fontSize={13} m={1}>
+                              <b>
+                                {item.ticket.start.city} (
+                                {item.ticket.start.code})
+                              </b>
+                            </Box>
+                            <Box fontSize={11} m={1}>
+                              Stasiun {item.ticket.start.name}
+                            </Box>
+                            <Box fontSize={13} m={1}>
+                              <b>
+                                {item.ticket.destination.city} (
+                                {item.ticket.destination.code})
+                              </b>
+                            </Box>
+                            <Box fontSize={11} m={1}>
+                              Stasiun {item.ticket.destination.name}
+                            </Box>
                           </Typography>
                         </Grid>
                       </Grid>
                     </Grid>
+
+                    <Grid item xs={3}>
+                      <Grid>
+                        <Typography variant="h5">
+                          <Box fontSize={23} m={1}>
+                            <b>Kereta Api</b>
+                          </Box>
+                          <Box fontSize={15} m={1}>
+                            {moment(item.ticket.start_date).format(
+                              "dddd, MMMM Do YYYY"
+                            )}
+                          </Box>
+                          {item == undefined ? (
+                            ""
+                          ) : item.status == "Approved" ? (
+                            <Box
+                              border={3}
+                              style={{
+                                width: "155px"
+                              }}
+                            >
+                              <Avatar
+                                variant="square"
+                                className={classes.square}
+                                alt="qrcode"
+                                src="/qr.jpg"
+                                style={{ width: 150, height: 150 }}
+                              ></Avatar>
+                            </Box>
+                          ) : (
+                            <Box
+                              border={3}
+                              style={{
+                                width: "155px",
+                                backgroundColor: "#f5f5f5"
+                              }}
+                            >
+                              <Paper
+                                variant="outlined"
+                                style={{
+                                  height: "20vh",
+                                  backgroundColor: "#f5f5f5"
+                                }}
+                              ></Paper>
+                            </Box>
+                          )}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+
+                    {/* payment button */}
+                    <Grid item xs={12} style={{ marginBottom: -5 }}>
+                      <Grid container className={classes.dua}>
+                        <Grid item xs={2}>
+                          <Typography componenet="div">
+                            <Box fontSize={13} m={1}>
+                              <b>ID Pengguna</b>
+                            </Box>
+                          </Typography>
+                        </Grid>
+
+                        <Grid item xs={2}>
+                          <Typography componenet="div">
+                            <Box fontSize={13} m={1}>
+                              <b>Nama Pemesan</b>
+                            </Box>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                          <Typography componenet="div">
+                            <Box fontSize={13} m={1}>
+                              <b>No. Handphone</b>
+                            </Box>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                          <Typography variant="h5">
+                            <Box fontSize={13} m={1}>
+                              <b>Email</b>
+                            </Box>
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Grid item xs={8}>
+                        <hr></hr>
+                      </Grid>
+                      <Grid
+                        container
+                        className={classes.dua}
+                        style={{ marginTop: -5 }}
+                      >
+                        <Grid item xs={2}>
+                          <Typography componenet="div">
+                            <Box
+                              fontSize={13}
+                              m={1}
+                              className={classes.textData}
+                            >
+                              <b>{item.user.id_card}</b>
+                            </Box>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                          <Typography componenet="div">
+                            <Box
+                              fontSize={13}
+                              m={1}
+                              className={classes.textData}
+                            >
+                              <b>{item.user.name}</b>
+                            </Box>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                          <Typography componenet="div">
+                            <Box
+                              fontSize={13}
+                              m={1}
+                              className={classes.textData}
+                            >
+                              <b>{item.user.phone}</b>
+                            </Box>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                          <Typography variant="h5">
+                            <Box
+                              fontSize={13}
+                              m={1}
+                              className={classes.textData}
+                            >
+                              <b>{item.user.email}</b>
+                            </Box>
+                          </Typography>
+                        </Grid>
+                        <Grid
+                          item
+                          xs={4}
+                          style={{ paddingLeft: 80, marginTop: -8 }}
+                        >
+                          <Grid>
+                            <Typography variant="h5">
+                              <Button variant="outlined" color="primary">
+                                <Link to="/Invoice">Bayar Sekarang</Link>
+                              </Button>
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </Paper>
+                </Paper>
+              ))}
             </Grid>
           </Container>
         </div>
@@ -289,15 +377,13 @@ class Ticket extends React.Component {
 
 const MapsToProps = state => {
   return {
-    // ticket: state.ticket,
-    // user: state.user
+    payment: state.payment
   };
 };
 
 const MapsDispacthToProps = dispacth => {
   return {
-    // get_ticket: () => dispacth(get_ticket()),
-    // get_user: () => dispacth(get_user())
+    get_myticket: () => dispacth(get_myticket())
   };
 };
 export default connect(

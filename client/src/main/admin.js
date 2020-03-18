@@ -22,7 +22,8 @@ import {
 } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import { connect } from "react-redux";
-import { get_payment } from "../_action/payment";
+import { get_allticket } from "../_action/payment";
+import moment from "moment";
 const styles = theme => ({
   root: {
     flexGrow: 1
@@ -87,7 +88,7 @@ const StyledTableRow = withStyles(theme => ({
 
 class Payment extends React.Component {
   componentDidMount() {
-    this.props.get_payment();
+    this.props.get_allticket();
   }
   render() {
     const { classes } = this.props;
@@ -136,27 +137,42 @@ class Payment extends React.Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {data.map((item, index) => (
+                  {data.map((value, index) => (
                     <StyledTableRow key={index}>
                       <StyledTableCell component="th" scope="row">
                         {index + 1}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {item.user.name}
+                        {value.user == undefined ? "" : value.user.name}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {item.ticket.start.name} -{" "}
-                        {item.ticket.destination.name}
+                        {value.ticket == undefined
+                          ? ""
+                          : value.ticket.start.name}
+                        -
+                        {value.ticket == undefined
+                          ? ""
+                          : value.ticket.destination.name}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {item.status}
+                        {value.attachment}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {item.status}
+                        {value.status}
                       </StyledTableCell>
                       <StyledTableCell align="left">
                         <IconButton>
-                          <Search />
+                          <Search
+                            start_date={moment(value.ticket.start_date).format(
+                              "dddd, MMMM Do YYYY"
+                            )}
+                            train_name={value.ticket.train_name.name}
+                            train_type={value.ticket.train_type.name}
+                            arrival_date={value.ticket.arrival_date}
+                            arrival_time={value.ticket.arrival_time}
+                            start_date1={value.ticket.start_date}
+                            start_time={value.ticket.start_time}
+                          />
                         </IconButton>
                         <IconButton>
                           <Edit />
@@ -189,7 +205,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    get_payment: () => dispatch(get_payment())
+    get_allticket: () => dispatch(get_allticket())
   };
 };
 export default connect(

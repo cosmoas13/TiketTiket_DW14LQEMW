@@ -4,10 +4,16 @@ import Ticket from "./main/ticket";
 import Invoice from "./main/invoice";
 import Admin from "./main/admin";
 import AddTicket from "./main/addticket";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
 
 class Routers extends Component {
   render() {
+    const jabatan = localStorage.getItem("jabatan");
     return (
       <div className="Container-app">
         <Router>
@@ -21,9 +27,14 @@ class Routers extends Component {
             <Route path="/Invoice">
               <Invoice />
             </Route>
-            <Route path="/Admin">
-              <Admin />
-            </Route>
+            {jabatan === "admin" ? (
+              <Route path="/Admin">
+                <Admin />
+              </Route>
+            ) : (
+              <Redirect to="/" />
+            )}
+
             <Route path="/Add">
               <AddTicket />
             </Route>

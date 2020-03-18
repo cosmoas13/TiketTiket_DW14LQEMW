@@ -7,5 +7,5 @@ export const GET_TYPE = "GET_TYPE";
 export const GET_TRAIN = "GET_TRAIN";
 export const GET_PAYMENT = "GET_PAYMENT";
 export const POST_PAYMENT = "POST_PAYMENT";
-
 export const GET_USER = "GET_USER";
+export const GET_ALLTICKET = "GET_ALLTICKET";

@@ -15,9 +15,6 @@ import {
   TextField,
   Checkbox,
   FormControlLabel,
-  MenuItem,
-  FormControl,
-  Select,
   Button,
   withStyles
 } from "@material-ui/core";
@@ -84,12 +81,14 @@ class VerticalTabs extends Component {
 
   handleSearch = () => {
     const { from, to } = this.state;
-    this.props.get_ticket(from, to);
+    if (from || to !== null) {
+      this.props.get_ticket(from.name, to.name);
+    }
   };
 
-  handleChange = async () => {
+  handleChange = () => {
     const { from, to } = this.state;
-    await this.setState({
+    this.setState({
       from: to,
       to: from
     });
@@ -133,9 +132,9 @@ class VerticalTabs extends Component {
                 <Autocomplete
                   options={st}
                   getOptionLabel={st => st.name}
-                  inputValue={from}
+                  value={from}
                   onChange={(event, value) => {
-                    this.setState({ from: value.name });
+                    this.setState({ from: value });
                   }}
                   style={{ width: 280, height: 60 }}
                   renderInput={params => (
@@ -148,9 +147,11 @@ class VerticalTabs extends Component {
                   )}
                 />
               </FormGroup>
+
               <IconButton onClick={this.handleChange}>
                 <SwapHorizIcon style={{ color: "#647BFF" }} />
               </IconButton>
+
               <FormGroup col style={{ marginTop: -25 }}>
                 <FormLabel className="label-tujuan" label="tujuan">
                   <strong> Tujuan</strong>
@@ -158,9 +159,9 @@ class VerticalTabs extends Component {
                 <Autocomplete
                   options={st}
                   getOptionLabel={st => st.name}
-                  inputValue={to}
+                  value={to}
                   onChange={(event, value) => {
-                    this.setState({ to: value.name });
+                    this.setState({ to: value });
                   }}
                   style={{ width: 280, height: 60 }}
                   renderInput={params => (

@@ -1,5 +1,5 @@
 // import axios from "axios";
-import { LOGIN, REGISTER, GET_USER } from "../config/constanst";
+import { LOGIN, REGISTER } from "../config/constanst";
 import { API, setAuthToken } from "../config/api";
 
 export const login = data => {
@@ -25,6 +25,7 @@ export const register = data => {
       const res = await API.post("/register", data);
       // console.log("cek register", res.data);
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("username", res.data.username);
       localStorage.setItem("email", res.data.email);
       return res.data;
     }

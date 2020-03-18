@@ -18,6 +18,8 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import LensIcon from "@material-ui/icons/Lens";
+import { connect } from "react-redux";
+import { get_allticket } from "../_action/payment";
 
 const startStepsIcons = () => <RadioButtonUncheckedIcon color="primary" />;
 const endStepsIcons = () => <LensIcon color="primary" />;
@@ -36,6 +38,7 @@ class InvoiceM extends React.Component {
   };
   render() {
     const classes = this.props;
+    const { data } = this.props.payment;
     return (
       <div>
         <Button
@@ -74,9 +77,7 @@ class InvoiceM extends React.Component {
                               <Box>
                                 <b>Kereta Api</b>
                               </Box>
-                              <Box fontSize={13}>
-                                Saturday, 21 February 2020
-                              </Box>
+                              <Box fontSize={13}>{this.props.start_date}</Box>
                             </Container>
                           </Typography>
 
@@ -84,9 +85,9 @@ class InvoiceM extends React.Component {
                           <Typography>
                             <Container>
                               <Box>
-                                <b>Argo Wilis</b>
+                                <b>{this.props.train_name}</b>
                               </Box>
-                              <Box fontSize={13}>Eksekutif (H)</Box>
+                              <Box fontSize={13}>{this.props.train_type}</Box>
                             </Container>
                           </Typography>
                         </Grid>
@@ -150,13 +151,17 @@ class InvoiceM extends React.Component {
                               <Typography style={{ paddingTop: 15 }}>
                                 <Container>
                                   <Box fontSize={12}>
-                                    <b>05:00</b>
+                                    <b>{this.props.start_time}</b>
                                   </Box>
-                                  <Box fontSize={13}>21 February 2020</Box>
+                                  <Box fontSize={13}>
+                                    {this.props.start_date1}
+                                  </Box>
                                   <Box fontSize={12}>
-                                    <b>10:05</b>
+                                    <b>{this.props.arrival_time}</b>
                                   </Box>
-                                  <Box fontSize={13}>21 February 2020</Box>
+                                  <Box fontSize={13}>
+                                    {this.props.arrival_date}
+                                  </Box>
                                 </Container>
                               </Typography>
                             </Grid>
@@ -267,4 +272,13 @@ class InvoiceM extends React.Component {
   }
 }
 
-export default InvoiceM;
+const MapsToProps = state => {
+  return { payment: state.payment };
+};
+
+const MapsDispacthToProps = dispacth => {
+  return {
+    get_allticket: () => dispacth(get_allticket())
+  };
+};
+export default connect(MapsToProps, MapsDispacthToProps)(InvoiceM);

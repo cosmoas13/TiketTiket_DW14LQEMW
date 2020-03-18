@@ -98,7 +98,7 @@ class Landing extends React.Component {
 
   render() {
     const { logedIn, data } = this.props.auth;
-    const { data: name } = this.props.user;
+    // const { data: name } = this.props.user;
     const { classes } = this.props;
     const username = localStorage.getItem("username");
     const jabatan = localStorage.getItem("jabatan");

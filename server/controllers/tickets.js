@@ -9,7 +9,6 @@ const Payment = models.payment;
 
 exports.index = async (req, res) => {
   const { from, to } = req.query;
-  console.log(from, to, "sange");
 
   try {
     const f = await Station.findOne({
@@ -18,7 +17,6 @@ exports.index = async (req, res) => {
     const t = await Station.findOne({
       where: { name: { [Op.like]: `${to}` } }
     });
-    console.log(f, t, "cusk");
     if (f === null && t === null) {
       const fx = "";
       const tx = "";
@@ -136,47 +134,6 @@ exports.store = async (req, res) => {
       message: "ticket has been add",
       data: tickets
     });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-exports.myticket = async (req, res) => {
-  try {
-    const data = await Payment.findAll({
-      where: { user_id: req.user },
-      include: [
-        {
-          model: User,
-          as: "user"
-        },
-        {
-          model: Ticket,
-          as: "ticket",
-          include: [
-            {
-              model: Station,
-              as: "start",
-              attributes: ["name", "city"]
-            },
-            {
-              model: Station,
-              as: "destination",
-              attributes: ["name", "city"]
-            }
-          ],
-          attributes: {
-            exclude: [
-              "depart_station",
-              "destination_station",
-              "createdAt",
-              "updatedAt"
-            ]
-          }
-        }
-      ]
-    });
-    res.status(200).send({ status: true, message: "success", data });
   } catch (err) {
     console.log(err);
   }

@@ -67,127 +67,129 @@ class FormTiket extends React.Component {
 
     const { classes } = this.props;
     const { data: ticket } = this.props.ticket;
-    const { logedIn, data } = this.props.auth;
+    const { logedIn, data, loading } = this.props.auth;
 
-    return (
-      <div className={classes.root}>
-        <Grid container spacing={3} style={{ marginBottom: "0px" }}>
-          <Grid item xs={2}>
-            <Typography>
-              <Box>Nama Kereta</Box>
-            </Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <Typography>
-              <Box>Berangkat</Box>
-            </Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <Typography>
-              <Box>Tiba</Box>
-            </Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <Typography>
-              <Box>Durasi</Box>
-            </Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <Typography>
-              <Box>Harga Per Orang</Box>
-            </Typography>
-          </Grid>
-          <Grid item xs={1}>
-            <Box> </Box>
-          </Grid>
-        </Grid>
-
-        {/* GET_TICKET */}
-
-        {ticket.map((item, index) => (
-          <Box border={1} style={{ borderRadius: "10px", marginTop: "10px" }}>
-            <Grid container spacing={3}>
-              <Grid item xs={2}>
-                <Typography>
-                  <br />
-                  <Box>
-                    <b>{item.train_name.name}</b>
-                  </Box>
-                  <Box fontSize={13}>{item.train_type.name}</Box>
-                  <br />
-                </Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography>
-                  <br />
-                  <Box>
-                    <b>{item.start_time}</b>
-                  </Box>
-                  <Box fontSize={13}>{item.start.name}</Box>
-                  <br />
-                </Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography>
-                  <br />
-                  <Box>
-                    <b>{item.arrival_time}</b>
-                  </Box>
-                  <Box fontSize={13}>{item.destination.name}</Box>
-                  <br />
-                </Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <br />
-                <Typography>
-                  <Box>
-                    <b>{getDuration(item.start_time, item.arrival_time)}</b>
-                  </Box>
-                </Typography>
-                <br />
-              </Grid>
-              <Grid item xs={2}>
-                <br />
-                <Typography>
-                  <Box>
-                    <b>
-                      <td style={{ color: "#ffd740" }}>
-                        {toRupiah(item.price)}
-                      </td>
-                    </b>
-                  </Box>
-                </Typography>
-                <br />
-              </Grid>
-              <Grid item xs={1}>
-                <br />
-
-                {!logedIn ? (
-                  ""
-                ) : (
-                  <Buy
-                    data={item}
-                    qty={item.qty}
-                    train={item.train_name.name}
-                    type={item.train_type.name}
-                    start_time={item.start_time}
-                    start_date={item.start_date}
-                    start={item.start.name}
-                    destination={item.destination.name}
-                    arrival={item.arrival_time}
-                    arrival_date={item.arrival_date}
-                    price={item.price}
-                    durasi={getDuration(item.start_time, item.arrival_time)}
-                    train_id={item.id}
-                  />
-                )}
-                <br />
-              </Grid>
+    if (loading == true) return <p>ini loading ckuaks</p>;
+    else
+      return (
+        <div className={classes.root}>
+          <Grid container spacing={3} style={{ marginBottom: "0px" }}>
+            <Grid item xs={2}>
+              <Typography>
+                <Box>Nama Kereta</Box>
+              </Typography>
             </Grid>
-          </Box>
-        ))}
-      </div>
-    );
+            <Grid item xs={2}>
+              <Typography>
+                <Box>Berangkat</Box>
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography>
+                <Box>Tiba</Box>
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography>
+                <Box>Durasi</Box>
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography>
+                <Box>Harga Per Orang</Box>
+              </Typography>
+            </Grid>
+            <Grid item xs={1}>
+              <Box>Beli</Box>
+            </Grid>
+          </Grid>
+
+          {/* GET_TICKET */}
+
+          {ticket.map((item, index) => (
+            <Box border={1} style={{ borderRadius: "10px", marginTop: "10px" }}>
+              <Grid container spacing={3}>
+                <Grid item xs={2}>
+                  <Typography>
+                    <br />
+                    <Box>
+                      <b>{item.train_name.name}</b>
+                    </Box>
+                    <Box fontSize={13}>{item.train_type.name}</Box>
+                    <br />
+                  </Typography>
+                </Grid>
+                <Grid item xs={2}>
+                  <Typography>
+                    <br />
+                    <Box>
+                      <b>{item.start_time}</b>
+                    </Box>
+                    <Box fontSize={13}>{item.start.name}</Box>
+                    <br />
+                  </Typography>
+                </Grid>
+                <Grid item xs={2}>
+                  <Typography>
+                    <br />
+                    <Box>
+                      <b>{item.arrival_time}</b>
+                    </Box>
+                    <Box fontSize={13}>{item.destination.name}</Box>
+                    <br />
+                  </Typography>
+                </Grid>
+                <Grid item xs={2}>
+                  <br />
+                  <Typography>
+                    <Box>
+                      <b>{getDuration(item.start_time, item.arrival_time)}</b>
+                    </Box>
+                  </Typography>
+                  <br />
+                </Grid>
+                <Grid item xs={2}>
+                  <br />
+                  <Typography>
+                    <Box>
+                      <b>
+                        <td style={{ color: "#ffd740" }}>
+                          {toRupiah(item.price)}
+                        </td>
+                      </b>
+                    </Box>
+                  </Typography>
+                  <br />
+                </Grid>
+                <Grid item xs={1}>
+                  <br />
+
+                  {!logedIn ? (
+                    ""
+                  ) : (
+                    <Buy
+                      data={item}
+                      qty={item.qty}
+                      train={item.train_name.name}
+                      type={item.train_type.name}
+                      start_time={item.start_time}
+                      start_date={item.start_date}
+                      start={item.start.name}
+                      destination={item.destination.name}
+                      arrival={item.arrival_time}
+                      arrival_date={item.arrival_date}
+                      price={item.price}
+                      durasi={getDuration(item.start_time, item.arrival_time)}
+                      train_id={item.id}
+                    />
+                  )}
+                  <br />
+                </Grid>
+              </Grid>
+            </Box>
+          ))}
+        </div>
+      );
   }
 }
 
