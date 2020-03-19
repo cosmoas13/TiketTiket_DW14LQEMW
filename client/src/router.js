@@ -4,6 +4,8 @@ import Ticket from "./main/ticket";
 import Invoice from "./main/invoice";
 import Admin from "./main/admin";
 import AddTicket from "./main/addticket";
+import { connect } from "react-redux";
+import { get_user } from "./_action/user";
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,7 +15,6 @@ import {
 
 class Routers extends Component {
   render() {
-    const jabatan = localStorage.getItem("jabatan");
     return (
       <div className="Container-app">
         <Router>
@@ -27,14 +28,9 @@ class Routers extends Component {
             <Route path="/Invoice">
               <Invoice />
             </Route>
-            {jabatan === "admin" ? (
-              <Route path="/Admin">
-                <Admin />
-              </Route>
-            ) : (
-              <Redirect to="/" />
-            )}
-
+            <Route path="/Admin">
+              <Admin />
+            </Route>
             <Route path="/Add">
               <AddTicket />
             </Route>
@@ -45,4 +41,13 @@ class Routers extends Component {
   }
 }
 
-export default Routers;
+const MapsToProps = state => {
+  return { user: state.user };
+};
+
+const MapsDispacthToProps = dispacth => {
+  return {
+    get_user: () => dispacth(get_user())
+  };
+};
+export default connect(MapsToProps, MapsDispacthToProps)(Routers);

@@ -4,17 +4,45 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  TextField
+  TextField,
+  Box,
+  MenuItem,
+  Typography
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
+import { connect } from "react-redux";
+import { update_payment } from "../_action/payment";
+import data from "../components/status.json";
+import { Autocomplete } from "@material-ui/lab";
 
 class EditAdmin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
+      status: ""
     };
   }
+
+  handleSubmit = e => {
+    e.preventDefault();
+    const data = {
+      status: this.state.status
+    };
+    const id = this.props.id;
+    if (data !== null) {
+      this.props.update_payment(data, id);
+    }
+    window.location.reload(false);
+  };
+
+  handleChange = e => {
+    e.preventDefault();
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+    console.log(e.target.value);
+  };
 
   handleClickOpen() {
     this.setState({ open: true });
@@ -24,6 +52,7 @@ class EditAdmin extends React.Component {
     this.setState({ open: false });
   };
   render() {
+    const { value } = this.state;
     return (
       <div>
         <Button
@@ -46,53 +75,65 @@ class EditAdmin extends React.Component {
             <TextField
               margin="dense"
               id="no"
-              label="1"
               variant="outlined"
-              type="no"
               disabled="true"
               fullWidth
+              value={this.props.id}
             />
             <TextField
               margin="dense"
               id="name"
-              label="Anto"
               variant="outlined"
-              type="name"
               disabled="true"
               fullWidth
-            />
+              value={this.props.name}
+            >
+              {this.props.name}
+            </TextField>
             <TextField
               margin="dense"
               id="tujuan"
-              label="Surabaya - Jakarta"
               variant="outlined"
-              type="tujuan"
               disabled="true"
+              value={this.props.start_city}
               fullWidth
             />
             <TextField
               margin="dense"
               id="bukti"
-              label="bca.jpg"
               variant="outlined"
-              type="bukti"
               disabled="true"
+              value={this.props.attachment}
               fullWidth
             />
-            <TextField
-              margin="dense"
-              id="acc"
-              label="Approved"
-              variant="outlined"
-              type="acc"
+
+            <Autocomplete
+              options={data}
+              getOptionLabel={data => data.accdosen}
+              value={data}
+              disableClearable
+              onChange={(event, value) => {
+                this.setState({ status: value.accdosen });
+              }}
               fullWidth
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  placeholder="Pilih Tujuan"
+                  variant="outlined"
+                  size="small"
+                />
+              )}
             />
+            {console.log(this.state.status, "woi")}
+
             <Button
               color="primary"
               fullWidth
               variant="contained"
               size="medium"
               style={{ marginTop: "10px" }}
+              onClick={e => this.handleSubmit(e)}
             >
               Save
             </Button>
@@ -103,4 +144,15 @@ class EditAdmin extends React.Component {
   }
 }
 
-export default EditAdmin;
+const MapsToProps = state => {
+  return {
+    payment: state.payment
+  };
+};
+
+const MapsDispacthToProps = dispacth => {
+  return {
+    update_payment: (data, id) => dispacth(update_payment(data, id))
+  };
+};
+export default connect(MapsToProps, MapsDispacthToProps)(EditAdmin);

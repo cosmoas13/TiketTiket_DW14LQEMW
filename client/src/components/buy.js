@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import { post_payment } from "../_action/payment";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
+
 const styles = theme => ({
   paper: {
     textAlign: "center",
@@ -48,8 +49,10 @@ class Buy extends React.Component {
       total: this.state.total,
       date: this.props.start_date
     };
+    console.log(data, "jem");
+
     this.props.post_payment(data);
-    window.location.reload(false);
+    // window.location.reload(false);
   };
 
   handleChange = e => {

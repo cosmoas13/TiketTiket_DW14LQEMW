@@ -5,6 +5,7 @@ import { toRupiah } from "indo-formatter";
 import { connect } from "react-redux";
 import Buy from "../components/buy";
 import moment from "moment";
+import { get_user } from "../_action/user";
 
 const styles = theme => ({
   main: {
@@ -67,6 +68,7 @@ class FormTiket extends React.Component {
 
     const { classes } = this.props;
     const { data: ticket } = this.props.ticket;
+    const { data: user } = this.props.user;
     const { logedIn, data, loading } = this.props.auth;
 
     if (loading == true) return <p>ini loading ckuaks</p>;
@@ -113,9 +115,11 @@ class FormTiket extends React.Component {
                   <Typography>
                     <br />
                     <Box>
-                      <b>{item.train_name.name}</b>
+                      <b>{item.train_name && item.train_name.name}</b>
                     </Box>
-                    <Box fontSize={13}>{item.train_type.name}</Box>
+                    <Box fontSize={13}>
+                      {item.train_type && item.train_type.name}
+                    </Box>
                     <br />
                   </Typography>
                 </Grid>
@@ -125,7 +129,7 @@ class FormTiket extends React.Component {
                     <Box>
                       <b>{item.start_time}</b>
                     </Box>
-                    <Box fontSize={13}>{item.start.name}</Box>
+                    <Box fontSize={13}>{item.start && item.start.name}</Box>
                     <br />
                   </Typography>
                 </Grid>
@@ -135,7 +139,9 @@ class FormTiket extends React.Component {
                     <Box>
                       <b>{item.arrival_time}</b>
                     </Box>
-                    <Box fontSize={13}>{item.destination.name}</Box>
+                    <Box fontSize={13}>
+                      {item.destination && item.destination.name}
+                    </Box>
                     <br />
                   </Typography>
                 </Grid>
@@ -164,18 +170,18 @@ class FormTiket extends React.Component {
                 <Grid item xs={1}>
                   <br />
 
-                  {!logedIn ? (
+                  {!user == "user" ? (
                     ""
                   ) : (
                     <Buy
                       data={item}
                       qty={item.qty}
-                      train={item.train_name.name}
-                      type={item.train_type.name}
+                      train={item.train_name && item.train_name.name}
+                      type={item.train_type && item.train_type.name}
                       start_time={item.start_time}
                       start_date={item.start_date}
-                      start={item.start.name}
-                      destination={item.destination.name}
+                      start={item.start && item.start.name}
+                      destination={item.destination && item.destination.name}
                       arrival={item.arrival_time}
                       arrival_date={item.arrival_date}
                       price={item.price}
@@ -194,12 +200,12 @@ class FormTiket extends React.Component {
 }
 
 const MapsToProps = state => {
-  return { ticket: state.ticket, auth: state.auth };
+  return { ticket: state.ticket, auth: state.auth, user: state.user };
 };
 
 const MapsDispacthToProps = dispacth => {
   return {
-    // get_ticket: (from, to) => dispacth(get_ticket(from, to))
+    get_user: () => dispacth(get_user())
   };
 };
 export default connect(

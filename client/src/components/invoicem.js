@@ -20,7 +20,7 @@ import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import LensIcon from "@material-ui/icons/Lens";
 import { connect } from "react-redux";
 import { get_allticket } from "../_action/payment";
-
+import moment from "moment";
 const startStepsIcons = () => <RadioButtonUncheckedIcon color="primary" />;
 const endStepsIcons = () => <LensIcon color="primary" />;
 
@@ -66,7 +66,7 @@ class InvoiceM extends React.Component {
             <Grid container>
               {/* parent grid */}
               <Grid item sm={12}>
-                <Grid style={{ minWidth: "500px" }}>
+                <Grid style={{ minWidth: "600px" }}>
                   {/* isi grid ukuran 8 */}
                   <Grid item sm={12}>
                     <Paper variant="outlined">
@@ -151,16 +151,16 @@ class InvoiceM extends React.Component {
                               <Typography style={{ paddingTop: 15 }}>
                                 <Container>
                                   <Box fontSize={12}>
-                                    <b>{this.props.start_time}</b>
+                                    <b>{this.props.start_date1}</b>
                                   </Box>
                                   <Box fontSize={13}>
-                                    {this.props.start_date1}
+                                    {this.props.start_time}
                                   </Box>
                                   <Box fontSize={12}>
-                                    <b>{this.props.arrival_time}</b>
+                                    <b>{this.props.arrival_date}</b>
                                   </Box>
                                   <Box fontSize={13}>
-                                    {this.props.arrival_date}
+                                    {this.props.arrival_time}
                                   </Box>
                                 </Container>
                               </Typography>
@@ -169,13 +169,23 @@ class InvoiceM extends React.Component {
                               <Typography style={{ paddingTop: 15 }}>
                                 <Container>
                                   <Box fontSize={12}>
-                                    <b>Jakarta (GMR)</b>
+                                    <b>
+                                      {this.props.start_city} (
+                                      {this.props.start_code})
+                                    </b>
                                   </Box>
-                                  <Box fontSize={13}>Stasiun Gambir</Box>
+                                  <Box fontSize={13}>
+                                    Stasiun {this.props.start_name}
+                                  </Box>
                                   <Box fontSize={12}>
-                                    <b>Surabaya (SBY)</b>
+                                    <b>
+                                      {this.props.destination_city} (
+                                      {this.props.destination_code})
+                                    </b>
                                   </Box>
-                                  <Box fontSize={13}>Stasiun Surabaya</Box>
+                                  <Box fontSize={13}>
+                                    Stasiun {this.props.destination_name}
+                                  </Box>
                                 </Container>
                               </Typography>
                             </Grid>
@@ -193,36 +203,36 @@ class InvoiceM extends React.Component {
                                 <Box fontSize={12}>
                                   <b>No.Tanda Pengenal</b>
                                 </Box>
-                                <Box fontSize={12}>311750330003970001</Box>
+                                <Box fontSize={12}>{this.props.id_card}</Box>
                               </Typography>
                             </Grid>
                             <Grid item sm={3}>
                               <Typography style={{ paddingTop: 15 }}>
                                 <Container>
-                                  <Box fontSize={12}>
+                                  <Box fontSize={11}>
                                     <b>Nama Pemesan</b>
                                   </Box>
-                                  <Box fontSize={13}>Anto</Box>
+                                  <Box fontSize={11}>{this.props.name}</Box>
                                 </Container>
                               </Typography>
                             </Grid>
                             <Grid item sm={3}>
                               <Typography style={{ paddingTop: 15 }}>
                                 <Container>
-                                  <Box fontSize={12}>
+                                  <Box fontSize={11}>
                                     <b>No. Handphone</b>
                                   </Box>
-                                  <Box fontSize={13}>083896833112</Box>
+                                  <Box fontSize={11}>{this.props.phone}</Box>
                                 </Container>
                               </Typography>
                             </Grid>
                             <Grid item sm={3}>
                               <Typography style={{ paddingTop: 15 }}>
                                 <Container>
-                                  <Box fontSize={12}>
+                                  <Box fontSize={11}>
                                     <b>Email</b>
                                   </Box>
-                                  <Box fontSize={13}>anto@gmail.com</Box>
+                                  <Box fontSize={11}>{this.props.email}</Box>
                                 </Container>
                               </Typography>
                             </Grid>
@@ -251,7 +261,7 @@ class InvoiceM extends React.Component {
                               >
                                 <Container>
                                   <Box fontSize={23}>
-                                    <b>Rp. 250.000</b>
+                                    <b>{this.props.total}</b>
                                   </Box>
                                 </Container>
                               </Typography>

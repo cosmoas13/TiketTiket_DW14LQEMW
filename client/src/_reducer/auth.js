@@ -11,7 +11,6 @@ const auth = (state = initialState, action) => {
   switch (action.type) {
     case `${LOGIN}_PENDING`:
     case `${REGISTER}_PENDING`:
-    case `${GET_USER}_PENDING`:
       return {
         ...state,
         loading: true,
@@ -19,7 +18,6 @@ const auth = (state = initialState, action) => {
       };
     case `${LOGIN}_FULFILLED`:
     case `${REGISTER}_FULFILLED`:
-    case `${GET_USER}_FULFILLED`:
       return {
         ...state,
         logedIn: true,
@@ -29,7 +27,6 @@ const auth = (state = initialState, action) => {
       };
     case `${LOGIN}_REJECTED`:
     case `${REGISTER}_REJECTED`:
-    case `${GET_USER}_REJECTED`:
       return {
         ...state,
         loading: false,

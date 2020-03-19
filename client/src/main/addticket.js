@@ -125,8 +125,6 @@ class Ticket extends React.Component {
     const { data: st } = this.props.station;
     const { data: tr } = this.props.train;
     const { data: ty } = this.props.type;
-    console.log(this.props.type, "cuks");
-
     return (
       <>
         <div className={classes.root}>

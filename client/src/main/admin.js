@@ -23,6 +23,7 @@ import {
 import Avatar from "@material-ui/core/Avatar";
 import { connect } from "react-redux";
 import { get_allticket } from "../_action/payment";
+import { get_user } from "../_action/user";
 import moment from "moment";
 const styles = theme => ({
   root: {
@@ -89,12 +90,12 @@ const StyledTableRow = withStyles(theme => ({
 class Payment extends React.Component {
   componentDidMount() {
     this.props.get_allticket();
+    this.props.get_user();
   }
   render() {
     const { classes } = this.props;
     const { data } = this.props.payment;
-    const username = localStorage.getItem("username");
-
+    const kevin = this.props.user.data;
     return (
       <>
         <div className={classes.root}>
@@ -107,7 +108,7 @@ class Payment extends React.Component {
                     <Avatar alt="homelogo" src="/logo.png" />
                   </IconButton>
                 </Typography>
-                <Box>{username}</Box>
+                <Box>{kevin && kevin.name}</Box>
                 <Box>
                   <DropDown1 />
                 </Box>
@@ -163,19 +164,97 @@ class Payment extends React.Component {
                       <StyledTableCell align="left">
                         <IconButton>
                           <Search
-                            start_date={moment(value.ticket.start_date).format(
-                              "dddd, MMMM Do YYYY"
-                            )}
-                            train_name={value.ticket.train_name.name}
-                            train_type={value.ticket.train_type.name}
-                            arrival_date={value.ticket.arrival_date}
-                            arrival_time={value.ticket.arrival_time}
-                            start_date1={value.ticket.start_date}
-                            start_time={value.ticket.start_time}
+                            start_date={moment(
+                              value.ticket == undefined
+                                ? ""
+                                : value.ticket.start_date
+                            ).format("dddd, MMMM Do YYYY")}
+                            train_name={
+                              value.ticket == undefined
+                                ? ""
+                                : value.ticket.train_name.name
+                            }
+                            train_type={
+                              value.ticket == undefined
+                                ? ""
+                                : value.ticket.train_type.name
+                            }
+                            arrival_date={
+                              value.ticket == undefined
+                                ? ""
+                                : value.ticket.arrival_date
+                            }
+                            arrival_time={
+                              value.ticket == undefined
+                                ? ""
+                                : value.ticket.arrival_time
+                            }
+                            start_date1={
+                              value.ticket == undefined
+                                ? ""
+                                : value.ticket.start_date
+                            }
+                            start_time={
+                              value.ticket == undefined
+                                ? ""
+                                : value.ticket.start_time
+                            }
+                            total={value.total == undefined ? "" : value.total}
+                            start_city={
+                              value.ticket == undefined
+                                ? ""
+                                : value.ticket.start.city
+                            }
+                            start_name={
+                              value.ticket == undefined
+                                ? ""
+                                : value.ticket.start.name
+                            }
+                            start_code={
+                              value.ticket == undefined
+                                ? ""
+                                : value.ticket.start.code
+                            }
+                            destination_city={
+                              value.ticket == undefined
+                                ? ""
+                                : value.ticket.destination.city
+                            }
+                            destination_name={
+                              value.ticket == undefined
+                                ? ""
+                                : value.ticket.destination.name
+                            }
+                            destination_code={
+                              value.ticket == undefined
+                                ? ""
+                                : value.ticket.destination.code
+                            }
+                            id_card={
+                              value.user == undefined ? "" : value.user.id_card
+                            }
+                            name={
+                              value.user == undefined ? "" : value.user.name
+                            }
+                            phone={
+                              value.user == undefined ? "" : value.user.phone
+                            }
+                            email={
+                              value.user == undefined ? "" : value.user.email
+                            }
                           />
                         </IconButton>
                         <IconButton>
-                          <Edit />
+                          <Edit
+                            id={value.id}
+                            name={value.user && value.user.name}
+                            start_city={value.ticket && value.ticket.start.city}
+                            destination_city={
+                              value.ticket && value.ticket.destination.city
+                            }
+                            attachment={value.attachment}
+                            status={value.status}
+                          />
                         </IconButton>
                         <IconButton>
                           <DeleteIcon />
@@ -200,12 +279,14 @@ class Payment extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    payment: state.payment
+    payment: state.payment,
+    user: state.user
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    get_allticket: () => dispatch(get_allticket())
+    get_allticket: () => dispatch(get_allticket()),
+    get_user: () => dispatch(get_user())
   };
 };
 export default connect(

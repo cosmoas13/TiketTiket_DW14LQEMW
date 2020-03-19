@@ -8,6 +8,7 @@ const UserController = require("../controllers/user");
 const TicketController = require("../controllers/tickets");
 const StationController = require("../controllers/station");
 const PaymentController = require("../controllers/payment");
+const { upload } = require("../middleware/upload");
 
 //Default message
 router.get("/", (req, res) => {
@@ -35,5 +36,8 @@ router.get("/payments", PaymentController.index);
 router.post("/payment", auth, PaymentController.order);
 router.get("/myticket", auth, PaymentController.myticket);
 router.get("/detail", PaymentController.detailticket);
+router.put("/update/:id", PaymentController.update);
+router.post("/upload/:id", upload.single("payment"), PaymentController.attach);
+router.delete("/delete/:id", PaymentController.delete);
 
 module.exports = router;

@@ -56,6 +56,71 @@ exports.index = async (req, res) => {
   }
 };
 
+exports.update = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  try {
+    const data = await Payment.findOne({
+      where: { id }
+    });
+    if (data) {
+      await data.update({
+        status
+      });
+      res.send({ data });
+    } else {
+      res.status(400).json({
+        status: "failed",
+        code: "400",
+        message: "Wrong ID"
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.delete = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const data = await Payment.destroy({ where: { id } });
+    res.send({ message: "Delete order", data, id });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.attach = async (req, res) => {
+  try {
+    const { filename } = req.file;
+    const { id } = req.params;
+
+    if (!filename) {
+      res.status(400).json({
+        status: "failed",
+        code: "400",
+        message: "Please upload file"
+      });
+    } else {
+      const photo = await Payment.update(
+        {
+          attachment: filename
+        },
+        { where: { id } }
+      );
+      res.status(200).json({
+        status: "success",
+        code: "200",
+        message: "file has been upload",
+        data: filename,
+        photo
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 exports.order = async (req, res) => {
   const { train_id, qty, total, depart, destination, date } = req.body;
   try {

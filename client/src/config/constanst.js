@@ -9,3 +9,6 @@ export const GET_PAYMENT = "GET_PAYMENT";
 export const POST_PAYMENT = "POST_PAYMENT";
 export const GET_USER = "GET_USER";
 export const GET_ALLTICKET = "GET_ALLTICKET";
+export const UPDATE_PAYMENT = "UPDATE_PAYMENT";
+export const DELETE_PAYMENT = "DELETE_PAYMENT";
+export const UPLOAD_PAYMENT = "UPLOAD_PAYMENT";

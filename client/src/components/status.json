@@ -1,0 +1,14 @@
+[
+  {
+    "accdosen": "Pending"
+  },
+  {
+    "accdosen": "Approved"
+  },
+  {
+    "accdosen": "Waiting Payment"
+  },
+  {
+    "accdosen": "Declined"
+  }
+]

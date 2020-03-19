@@ -20,7 +20,6 @@ import Login from "./components/login";
 import Register from "./components/register";
 import Drop from "./items/dropdown";
 import { connect } from "react-redux";
-
 import { get_user } from "./_action/user";
 
 const styles = theme => ({
@@ -97,11 +96,9 @@ class Landing extends React.Component {
   }
 
   render() {
-    const { logedIn, data } = this.props.auth;
-    // const { data: name } = this.props.user;
+    const { data } = this.props.user;
     const { classes } = this.props;
-    const username = localStorage.getItem("username");
-    const jabatan = localStorage.getItem("jabatan");
+    console.log(data, "JEMB");
     return (
       <div className={classes.root}>
         <div className={classes.main}>
@@ -113,12 +110,12 @@ class Landing extends React.Component {
                   <Avatar alt="homelogo" src="/logo.png" />
                 </IconButton>
               </Typography>
-              {jabatan == "admin" ? (
+              {data.level == "admin" ? (
                 <Redirect to="/Admin" />
-              ) : logedIn ? (
+              ) : data.level == "user" ? (
                 <>
                   <Box>
-                    <Typography>{username}</Typography>
+                    <Typography>{data && data.name}</Typography>
                   </Box>
                   <Box>
                     <Drop />

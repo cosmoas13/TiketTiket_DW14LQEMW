@@ -8,7 +8,7 @@ export const get_user = () => {
       const token = localStorage.getItem("token");
       setAuthToken(token);
       const res = await API.get("/user");
-      return res.data;
+      return res.data.data;
     }
   };
 };
