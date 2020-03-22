@@ -97,11 +97,7 @@ Wait till the application is installed and run into your device. Now, you can ex
 
 ## Screenshots
 
-![1](https://user-images.githubusercontent.com/29488803/76940550-0d8cd680-692d-11ea-97f3-5aedb5cf02f2.png)
-![2](https://user-images.githubusercontent.com/29488803/76940557-11205d80-692d-11ea-912b-0a9e73e35135.png)
-![3](https://user-images.githubusercontent.com/29488803/76940558-11b8f400-692d-11ea-96ca-3dfba5e3e984.png)
-![4](https://user-images.githubusercontent.com/29488803/76940560-11b8f400-692d-11ea-95d0-8d11fb93fdad.png)
-![5](https://user-images.githubusercontent.com/29488803/76940562-12ea2100-692d-11ea-8084-f88ee5a0be7e.png)
+![all](https://user-images.githubusercontent.com/29488803/77260903-5a6e0580-6cbd-11ea-92cc-2c0641be41f9.png)
 
 ## Built With
 
