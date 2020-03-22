@@ -1,6 +1,6 @@
 // import axios from "axios";
 import { GET_STATION } from "../config/constanst";
-import { API, setAuthToken } from "../config/api";
+import { API } from "../config/api";
 
 export const get_stations = () => {
   return {

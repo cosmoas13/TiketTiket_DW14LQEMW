@@ -116,6 +116,9 @@ export default function PrimarySearchAppBar() {
       <Link to="/Add">
         <MenuItem onClick={handleMenuClose}>Tambah Tiket</MenuItem>
       </Link>
+      <Link to="/Admin">
+        <MenuItem onClick={handleMenuClose}>Admin</MenuItem>
+      </Link>
       <hr></hr>
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>

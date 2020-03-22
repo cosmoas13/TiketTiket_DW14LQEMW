@@ -33,7 +33,7 @@ const payment = (state = initialState, action) => {
     case `${POST_PAYMENT}_FULFILLED`:
     case `${GET_ALLTICKET}_FULFILLED`:
     case `${UPDATE_PAYMENT}_FULFILLED`:
-    case `${DELETE_PAYMENT}_FULFILLED`:
+    case "DELETE_PAYMENT_FULFILLED":
       return {
         ...state,
         data: action.payload,

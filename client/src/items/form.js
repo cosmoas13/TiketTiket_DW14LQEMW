@@ -56,6 +56,9 @@ const styles = theme => ({
 });
 
 class FormTiket extends React.Component {
+  componentDidMount() {
+    this.props.get_user();
+  }
   render() {
     const getDuration = (timeA, timeB) => {
       let startTime = moment(timeA, "HH:mm:ss");
@@ -68,8 +71,8 @@ class FormTiket extends React.Component {
 
     const { classes } = this.props;
     const { data: ticket } = this.props.ticket;
-    const { data: user } = this.props.user;
-    const { logedIn, data, loading } = this.props.auth;
+    const { data } = this.props.user;
+    const { logedIn, loading } = this.props.auth;
 
     if (loading == true) return <p>ini loading ckuaks</p>;
     else
@@ -170,7 +173,7 @@ class FormTiket extends React.Component {
                 <Grid item xs={1}>
                   <br />
 
-                  {!user == "user" ? (
+                  {data.level !== "user" ? (
                     ""
                   ) : (
                     <Buy

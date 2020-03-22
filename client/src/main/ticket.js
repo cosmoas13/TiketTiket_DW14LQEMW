@@ -4,7 +4,7 @@ import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import LensIcon from "@material-ui/icons/Lens";
 import DropDown1 from "../items/dropdown";
 import Box from "@material-ui/core/Box";
-import { Redirect, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "typeface-roboto";
 import {
   Container,
@@ -238,7 +238,6 @@ class Ticket extends React.Component {
                                 <Avatar
                                   variant="square"
                                   className={classes.square}
-                                  alt="qrcode"
                                   src="/qr.jpg"
                                   style={{ width: 150, height: 150 }}
                                 ></Avatar>
@@ -247,15 +246,13 @@ class Ticket extends React.Component {
                               <Box
                                 border={3}
                                 style={{
-                                  width: "155px",
-                                  backgroundColor: "#f5f5f5"
+                                  width: "155px"
                                 }}
                               >
                                 <Paper
                                   variant="outlined"
                                   style={{
-                                    height: "20vh",
-                                    backgroundColor: "#f5f5f5"
+                                    height: "20vh"
                                   }}
                                 ></Paper>
                               </Box>
@@ -360,6 +357,7 @@ class Ticket extends React.Component {
                             <Grid>
                               <Typography variant="h5">
                                 <ModalInvoice
+                                  train_id={item.id}
                                   train_name={
                                     item.ticket && item.ticket.train_name.name
                                   }

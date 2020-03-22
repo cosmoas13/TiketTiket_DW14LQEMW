@@ -4,10 +4,7 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  TextField,
-  Box,
-  MenuItem,
-  Typography
+  TextField
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import { connect } from "react-redux";
@@ -52,7 +49,6 @@ class EditAdmin extends React.Component {
     this.setState({ open: false });
   };
   render() {
-    const { value } = this.state;
     return (
       <div>
         <Button

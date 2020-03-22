@@ -76,9 +76,10 @@ class ModalInvoice extends React.Component {
 
   bayarSekarang = (id, file) => {
     const formData = new FormData();
-    formData.append("id", id);
+    formData.append("id", this.props.train_id);
+    alert(this.props.train_id, "anjing");
     formData.append("payment", this.state.file);
-    uploadPayment(formData);
+    this.props.uploadPayment(formData);
     // history.push("/ticket");
   };
 
@@ -378,6 +379,7 @@ class ModalInvoice extends React.Component {
                           variant="contained"
                           color="primary"
                           fullWidth
+                          onClick={e => this.bayarSekarang(id, this.state.file)}
                           style={{ marginBottom: "5px" }}
                         >
                           Bayar
@@ -402,8 +404,16 @@ class ModalInvoice extends React.Component {
                   <Box border={3}>
                     <Paper
                       variant="outlined"
-                      style={{ height: "30vh", backgroundColor: "#f5f5f5" }}
+                      style={{
+                        height: "30vh"
+                      }}
                     >
+                      {/* <img src={this.state.preview} alt="Italian Trulli" /> */}
+                      <Avatar
+                        variant="square"
+                        src={this.state.preview}
+                        style={{ height: "30vh", width: "100%" }}
+                      />
                       <Grid container>
                         <Grid item sm={12}></Grid>
                       </Grid>

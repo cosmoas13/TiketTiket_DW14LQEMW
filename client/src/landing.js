@@ -98,7 +98,6 @@ class Landing extends React.Component {
   render() {
     const { data } = this.props.user;
     const { classes } = this.props;
-    console.log(data, "JEMB");
     return (
       <div className={classes.root}>
         <div className={classes.main}>
@@ -185,7 +184,7 @@ class Landing extends React.Component {
           <Grid container spacing={0}>
             <Grid item xs={12} flow>
               <Paper className={classes.paperTable}>
-                <FormTicket />
+                <FormTicket datalevel={data.level == "user"} />
               </Paper>
             </Grid>
           </Grid>

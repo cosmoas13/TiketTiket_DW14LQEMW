@@ -83,8 +83,51 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   const id = req.params.id;
   try {
-    const data = await Payment.destroy({ where: { id } });
-    res.send({ message: "Delete order", data, id });
+    const delPayment = await Payment.destroy({ where: { id } });
+    // res.send({ message: "Delete order", data, id });
+    const data = await Payment.findAll({
+      include: [
+        {
+          model: User,
+          as: "user"
+        },
+        {
+          model: Ticket,
+          as: "ticket",
+          include: [
+            {
+              model: Station,
+              as: "start",
+              attributes: ["name", "city", "code"]
+            },
+            {
+              model: Station,
+              as: "destination",
+              attributes: ["name", "city", "code"]
+            },
+            {
+              model: Train,
+              as: "train_name",
+              attributes: ["name"]
+            },
+            {
+              model: Type,
+              as: "train_type",
+              attributes: ["name"]
+            }
+          ],
+          attributes: {
+            exclude: [
+              "depart_station",
+              "destination_station",
+              "createdAt",
+              "updatedAt"
+            ]
+          }
+        }
+      ]
+    });
+    res.status(200).send({ status: true, message: "delete success", data, id });
   } catch (err) {
     console.log(err);
   }
@@ -93,7 +136,7 @@ exports.delete = async (req, res) => {
 exports.attach = async (req, res) => {
   try {
     const { filename } = req.file;
-    const { id } = req.params;
+    const { id } = req.body;
 
     if (!filename) {
       res.status(400).json({
@@ -189,6 +232,7 @@ exports.myticket = async (req, res) => {
   try {
     const data = await Payment.findAll({
       where: { user_id: req.user },
+      order: [["createdAt", "DESC"]],
       include: [
         {
           model: User,
@@ -239,6 +283,7 @@ exports.myticket = async (req, res) => {
 exports.detailticket = async (req, res) => {
   try {
     const data = await Payment.findAll({
+      order: [["createdAt", "DESC"]],
       include: [
         {
           model: User,

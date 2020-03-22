@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Landing from "./landing";
 import Ticket from "./main/ticket";
-import Invoice from "./main/invoice";
 import Admin from "./main/admin";
 import AddTicket from "./main/addticket";
 import { connect } from "react-redux";
@@ -24,9 +23,6 @@ class Routers extends Component {
             </Route>
             <Route path="/Ticket">
               <Ticket />
-            </Route>
-            <Route path="/Invoice">
-              <Invoice />
             </Route>
             <Route path="/Admin">
               <Admin />

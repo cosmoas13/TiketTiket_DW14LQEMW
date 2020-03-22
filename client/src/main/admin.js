@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import DropDown1 from "../items/dropadmin";
 import Edit from "../components/editadmin";
 import Search from "../components/invoicem";
-import DeleteIcon from "@material-ui/icons/Delete";
+import Delete from "../components/modaldelete";
 import "typeface-roboto";
 import {
   Paper,
@@ -18,7 +18,8 @@ import {
   Toolbar,
   IconButton,
   Container,
-  Box
+  Box,
+  Select
 } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import { connect } from "react-redux";
@@ -92,6 +93,18 @@ class Payment extends React.Component {
     this.props.get_allticket();
     this.props.get_user();
   }
+  //   handleCheck = e => {
+  //     e.preventDefault();
+  //     const { id } = this.props.data;
+  //     const data = {
+  // if(status == "Approved")
+  //     };
+  //     console.log(data, "jem");
+
+  //     this.props.post_payment(data);
+  //     // window.location.reload(false);
+  //   };
+
   render() {
     const { classes } = this.props;
     const { data } = this.props.payment;
@@ -127,17 +140,19 @@ class Payment extends React.Component {
                   <TableRow>
                     <StyledTableCell>No</StyledTableCell>
                     <StyledTableCell align="left">Users</StyledTableCell>
-                    <StyledTableCell align="left">Tiket</StyledTableCell>
+                    <StyledTableCell align="center">Tiket</StyledTableCell>
                     <StyledTableCell align="left">
                       Bukti Transfer
                     </StyledTableCell>
                     <StyledTableCell align="left">
                       Status Payment
                     </StyledTableCell>
-                    <StyledTableCell align="left">Action</StyledTableCell>
+
+                    <StyledTableCell align="center">Action</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
+                  {console.log(data, "woi data")}
                   {data.map((value, index) => (
                     <StyledTableRow key={index}>
                       <StyledTableCell component="th" scope="row">
@@ -257,7 +272,7 @@ class Payment extends React.Component {
                           />
                         </IconButton>
                         <IconButton>
-                          <DeleteIcon />
+                          <Delete id={value.id} />
                         </IconButton>
                       </StyledTableCell>
                     </StyledTableRow>

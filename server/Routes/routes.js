@@ -37,7 +37,7 @@ router.post("/payment", auth, PaymentController.order);
 router.get("/myticket", auth, PaymentController.myticket);
 router.get("/detail", PaymentController.detailticket);
 router.put("/update/:id", PaymentController.update);
-router.post("/upload/:id", upload.single("payment"), PaymentController.attach);
+router.post("/upload", upload.single("payment"), PaymentController.attach);
 router.delete("/delete/:id", PaymentController.delete);
 
 module.exports = router;

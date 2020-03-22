@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN, GET_USER } from "../config/constanst";
+import { REGISTER, LOGIN } from "../config/constanst";
 // Setup Reducer for Redux
 const initialState = {
   data: [],

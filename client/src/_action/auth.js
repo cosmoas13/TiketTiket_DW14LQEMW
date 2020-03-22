@@ -1,6 +1,6 @@
 // import axios from "axios";
 import { LOGIN, REGISTER } from "../config/constanst";
-import { API, setAuthToken } from "../config/api";
+import { API } from "../config/api";
 
 export const login = data => {
   return {
